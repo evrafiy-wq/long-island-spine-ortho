@@ -67,7 +67,11 @@ a branding decision (Phase 3), not a migration change.
 - **Tailwind CSS v4** via `@tailwindcss/postcss`
 - **ESLint 9** (flat config, `next/core-web-vitals` + `next/typescript`) and
   **Prettier** with `prettier-plugin-tailwindcss` class sorting
-- `next/font/google` self-hosts DM Sans + DM Serif Display
+- `next/font/google` self-hosts **Instrument Sans** (display) + **IBM Plex Sans**
+  (body). Declared in `lib/fonts.ts` and applied to `<html>` — see the note in
+  that file, the placement is load-bearing
+- **`lucide-react`** for every icon. One stroke weight, set once via
+  `--site-icon-stroke` in the reset
 - `sharp` for the one-off image pipeline
 
 ```bash
@@ -84,19 +88,42 @@ Do not run `npm run build` while `npm run dev` is running — the build replaces
 ## Layout
 
 ```
-app/                    One folder per route; page.tsx holds page-specific prose only
-  globals.css           Design system + Tailwind imports (read the header comment)
-  layout.tsx            Fonts, metadata, chrome (utility bar / header / footer)
+app/
+  layout.tsx            Root: <html>, fonts, shared metadata. No chrome.
+  globals.css           Layer order, Tailwind imports, @source excludes, style imports
+  styles/
+    tokens.css          THE design token vocabulary (@theme) — start here
+    reset.css           Base reset; replaces Tailwind Preflight
+    preview-a.css       Archived Phase 2 direction A (scoped, inert elsewhere)
+    preview-b.css       Archived Phase 2 direction B
+  (site)/               The five real pages
+    layout.tsx          Chrome: action bar, header, emergency notice, footer
+    page.tsx  about/  services/  patient-info/  visit/
+  (preview)/            Archived design comparison; safe to delete wholesale
+    preview/page.tsx  preview/a/  preview/b/
 components/
-  layout/               Site chrome
-  sections/             Page sections; 'use client' only where there is real interactivity
-  Icon.tsx              Every inline SVG, copied path-for-path from the static site
+  site/                 Everything the real pages use
+  preview/              Chrome for the two archived directions only
 content/practice.ts     Single source of truth for all practice content
-lib/cx.ts               Conditional className joiner
+lib/
+  cx.ts                 Conditional className joiner
+  fonts.ts              The site's next/font declarations
+  pageTitle.ts          Derives each page's <h1> from the existing footer labels
+  preview-fonts/        Fonts for the two archived directions
 public/forms/           Patient PDFs, referenced via practice.forms
 public/images/          Optimized image masters
-scripts/                One-off maintenance scripts
+scripts/
+  audit-contrast.mjs    WCAG contrast gate — run it after touching any colour
+  optimize-images.mjs   One-off image pipeline
 ```
+
+Route groups do not affect URLs: `(site)/about/page.tsx` serves `/about`.
+
+**To delete the archived Phase 2 explorations:** remove `app/(preview)/`,
+`components/preview/`, `lib/preview-fonts/`, `app/styles/preview-{a,b}.css`,
+their two `@import` lines in `globals.css`, and
+`components/site/DirectionSwitcher.tsx`. Nothing on the real site imports any
+of it.
 
 ### Conventions
 
@@ -116,46 +143,107 @@ scripts/                One-off maintenance scripts
 
 ---
 
-## globals.css: things that will bite you
+## The design system: things that will bite you
 
-**Cascade layer order is `theme, base, legacy, components, utilities`.**
+Everything visual comes from `app/styles/tokens.css`. Read its header comment
+before changing a token — these were all verified against the
+`tailwindcss@4.3.3` compiler, and every one of them fails **silently**.
 
-1. **Preflight is deliberately not imported.** The legacy design system relies
-   on browser-default margins for `p` and `h3`. Tailwind's Preflight zeroes
-   them, which collapses spacing on every page. Re-enable it in Phase 2 only
-   together with explicit margins.
+**Cascade layer order is `theme, base, components, utilities`.**
 
-2. **`legacy` sits after `theme` on purpose.** The two define 11 of the same
-   custom properties — `--font-sans`, `--font-serif`, `--radius`,
-   `--radius-sm/md/lg/xl`, `--shadow-xs/sm/md/lg` — with different values. The
-   practice's values must win. Side effect: `rounded-lg` resolves to the
-   practice's 24px, not Tailwind's 0.5rem. Surprising but consistent.
+1. **Never write `@theme inline`.** Plain `@theme` emits `:root { --x: … }` and
+   utilities that read `var(--x)`. `inline` emits nothing to `:root` and bakes
+   literals into the utilities, which kills every downstream override with no
+   error.
 
-3. **`.container` was renamed to `.site-container`.** `container` is a real
-   Tailwind utility, so Tailwind emitted its own into the later `utilities`
-   layer and won, stretching every section to full viewport width. If you add a
-   legacy-style class that shares a name with a Tailwind utility, expect the
-   same.
+2. **`--shadow-*` cannot be overridden downstream.** It is build-time only:
+   Tailwind destructures the shadow at compile time to inject
+   `--tw-shadow-color`, so the value never reaches `:root`. Same for
+   `--inset-shadow-*`, `--text-shadow-*` and `--breakpoint-*`. Elevation goes
+   through the `elev-*` `@utility` rules instead. `--breakpoint-*` being
+   build-time is also why the whole site shares one breakpoint set — media
+   queries cannot read custom properties.
 
-## Known pre-existing bugs (inherited, deliberately not fixed)
+3. **Do not register `--spacing-{xs,sm,md,…}` in `@theme`.** `--spacing-*` is a
+   live Tailwind namespace, so `--spacing-md` would silently shadow a `p-md`
+   utility. Hence `--spacing-gutter` / `--spacing-block`. Bare `--spacing`
+   (Tailwind's 0.25rem multiplier behind `p-4`) is untouched, so numeric
+   spacing works normally.
 
-These were broken on the static site before the migration and were reproduced
-faithfully, because Phase 1 was explicitly a structural migration with no design
-changes. Fix them in Phase 2.
+4. **`max-w-prose` is a hardcoded `65ch` built-in** and ignores a
+   `--container-prose` token. The reading measure is `--container-reading` →
+   `max-w-reading`.
 
-1. **FAQ answers never open.** `.faq-answer` animates `grid-template-rows` from
-   `0fr` to `1fr`, but with the `transition` applied the row stays computed at
-   `0px`, so the panel has zero height. `aria-expanded` and the `hidden`
-   attribute toggle correctly — only the reveal is broken. Verified: removing
-   the transition makes it open to the correct height.
-2. **Several icons render wrong.** `.resource-icon svg`, `.resource-action svg`,
-   `.faq-icon svg` and the map pin in `.location-photo-label` have no
-   `fill: none; stroke: currentColor` rule, unlike `.care-icon svg` and
-   `.nav-cta svg`. The document/download icons render as solid black
-   silhouettes, and the `<line>`-based FAQ `+` icon is **completely invisible**.
-3. **`npm audit`** reports a moderate + high advisory in `postcss`, reached only
-   as a transitive dependency of Next 15. The only fix is Next 16, which is
-   outside this phase's stated stack.
+5. **Font tokens must be declared where the `next/font` className lives.** A
+   custom property resolves at computed-value time _on the element where it is
+   declared_. `--font-display` is declared at `:root`, so
+   `--site-font-display` has to exist at `:root` too — which is why
+   `lib/fonts.ts`'s variables go on `<html>`. Put them on a wrapper `<div>`
+   instead and every heading silently falls back to Times.
+
+6. **Preflight is still not imported.** `styles/reset.css` does the job and
+   more. Note `img { height: auto }` in there is load-bearing: without it every
+   `next/image` renders at its literal `height` attribute and the aspect ratio
+   is silently destroyed.
+
+7. **Tailwind scans `.css` files too**, so English words in comments become
+   class candidates — `border-collapse: collapse` and a comment reading
+   "scroll container" were each emitting a real utility, including a
+   `.container` that outranked the old design system's own. The `@source not`
+   block in `globals.css` handles this; do not remove it.
+
+8. **Never write ``className={`base${cond ? ' active' : ''}`}``** —
+   `prettier-plugin-tailwindcss` parses the inside of a className template
+   literal as a class list and strips the leading space, silently yielding
+   `baseactive`. Use `cx()` from `lib/cx.ts`, which is registered in
+   `.prettierrc.json`'s `tailwindFunctions` so its contents still get sorted.
+
+## Accessibility gates
+
+These are verified, not aspirational. Re-check after any visual change:
+
+- `node scripts/audit-contrast.mjs` — WCAG contrast for every declared
+  foreground/background pair. Exits non-zero on failure. Body copy is held to
+  AAA (7:1), everything else to AA.
+- Exactly one `<h1>` per page, no skipped heading levels, every heading inside
+  a landmark.
+- The phone number is reachable in one tap at every width — it lives in the
+  sticky `ActionBar`, which is the only sticky element.
+- Interactive targets are ≥24px tall.
+- Body copy is 17px minimum at 1.65 line-height. This audience is 40–75;
+  legibility is a clinical requirement, not a preference.
+
+## Known issues
+
+1. **The appointment form submits nowhere.** `components/site/AppointmentForm.tsx`
+   validates, then `console.log`s. There is no Server Action, no API route and
+   no `action` attribute anywhere in the project. It still shows
+   `practice.copy.appointmentForm.successLabel` ("Request received ✓") on
+   submit, **which is not true** — a patient can reasonably believe a request
+   was sent. Wiring this is Phase 4; until then treat the success message as a
+   known defect, not a feature. An appointment request carries PHI, so plain
+   email has HIPAA implications worth checking before choosing a transport.
+2. **One `[PLACEHOLDER]` is live** on the homepage: the label for the hero's
+   action block. Grep for `PLACEHOLDER`.
+3. **`npm audit`** reports a moderate + high advisory in `postcss`, reached
+   only as a transitive dependency of Next 15. The only fix is Next 16.
+
+### Fixed in Phase 2 (previously listed here as inherited bugs)
+
+- Four of five pages had **no `<h1>`** — shared sections hardcoded `<h2>`.
+  `components/site/PageHeader.tsx` now supplies one per page.
+- **FAQ answers never opened.** The old panel animated `grid-template-rows`
+  from `0fr`, which computed to 0px. `FaqList` toggles the `hidden` attribute
+  with no height animation, which removes the whole class of bug along with the
+  hand-synced 300ms timer.
+- **Several icons rendered as black silhouettes** because four call sites
+  lacked `fill: none; stroke: currentColor`, and the FAQ `+` was invisible.
+  Lucide icons are stroke-based and inherit `--site-icon-stroke`.
+- **The global focus ring was 1.9:1** (`3px solid #d6a752`), a real WCAG
+  1.4.11 failure. It is now 7.9:1, and inverted surfaces raise
+  `--site-focus-color` locally.
+- **The phone number vanished below 660px** once the non-sticky utility bar
+  scrolled away.
 
 ## Roadmap
 

@@ -1,0 +1,223 @@
+/* ============================================================================
+ * Design tokens — the site's single vocabulary.
+ *
+ * Direction C won, so its values are the DEFAULTS here rather than a scoped
+ * override, and every page reads them from :root. The two surviving
+ * exploration previews (direction-a.css, direction-b.css) still override these
+ * inside `[data-direction='a'|'b']`, which is why they keep working without a
+ * second copy of the vocabulary.
+ *
+ * THREE HARD RULES, each verified against the tailwindcss@4.3.3 compiler:
+ *
+ * 1. NEVER write `@theme inline`. Verified: `inline` emits nothing to :root and
+ *    inlines literal values into the utilities, which silently kills every
+ *    override with no error. Plain `@theme` emits `:root { --x: … }` AND
+ *    utilities that read `var(--x)`.
+ *
+ * 2. `--shadow-*` cannot be overridden downstream — it is build-time only
+ *    (Tailwind destructures the shadow at compile time to inject
+ *    `--tw-shadow-color`, so the value never reaches :root). Same for
+ *    `--inset-shadow-*`, `--text-shadow-*` and `--breakpoint-*`. Elevation
+ *    goes through the `@utility` rules at the bottom of this file.
+ *
+ * 3. Names avoided because the retired `legacy` layer used to claim them, and
+ *    because `--spacing-*` is a live Tailwind namespace where `--spacing-md`
+ *    would silently shadow a `p-md` utility: `--radius-sm/md/lg/xl`,
+ *    `--shadow-xs/sm/md/lg`, `--spacing-xs/sm/md/lg/xl/2xl/3xl`. Hence
+ *    `--radius-control`/`--radius-plate` and
+ *    `--spacing-gutter`/`--spacing-block`. Also `max-w-prose` is a hardcoded
+ *    65ch built-in that ignores `--container-prose`, so the reading measure is
+ *    `--container-reading` -> `max-w-reading`.
+ * ========================================================================= */
+
+@theme {
+  /* --- Color ---------------------------------------------------------------
+   * Near-achromatic with one saturated accent. Authored in hex on purpose:
+   * WCAG 2 contrast math is defined on sRGB, so scripts/audit-contrast.mjs
+   * runs with no colour library. Every ratio below is measured by that script,
+   * not estimated — #0b5c53 clears 7:1 on BOTH the white and the panel grey,
+   * which is what makes it safe for in-body links and not just buttons. */
+  --color-canvas: #ffffff; /* page ground */
+  --color-surface: #f4f5f6; /* panels, strips, row hover */
+  --color-sunken: #f4f5f6; /* full-bleed bands */
+  --color-dark: #0e1114; /* action bar, inverted bands */
+  --color-ink: #0e1114; /* 18.9:1 on canvas */
+  --color-ink-muted: #4a5157; /* 8.1:1 on canvas, 7.4:1 on surface */
+  --color-ink-inv: #f2f4f5; /* 17.2:1 on dark */
+  --color-ink-inv-muted: #a9b0b5; /* 8.6:1 on dark */
+  --color-hairline: #dde0e3; /* decorative 1px rules */
+  --color-border-strong: #82888d; /* interactive boundaries — 3.6:1, WCAG 1.4.11 */
+  --color-accent: #0b5c53; /* 7.9:1 on canvas */
+  --color-accent-hover: #084a43; /* 10.1:1 on canvas */
+  --color-accent-inv: #6fcdbf; /* 10.1:1 on dark */
+  --color-on-accent: #ffffff; /* 7.9:1 on accent */
+  --color-danger: #8c2f22; /* 7.2:1 on canvas — form validation only */
+
+  /* --- Type ----------------------------------------------------------------
+   * Seven steps. All-sans: hierarchy comes from scale and weight, not from a
+   * serif/sans split. Instrument Sans for display, IBM Plex Sans for
+   * everything else. Sizes step up at 48rem and 80rem (see the media queries
+   * below), so no component carries `md:text-…`.
+   *
+   *   display  the one h1 per page
+   *   title    section h2
+   *   subtitle h3 / row and card titles
+   *   lede     standfirst and pull copy
+   *   body     running prose — 17px floor, 1.65 line-height
+   *   meta     captions, hours, phone, fine print
+   *   label    uppercase eyebrows and <dt> terms
+   *
+   * display 76px against label 12px is a 6.3:1 ratio — the deliberate scale
+   * contrast this design is built on. */
+  --font-display: var(--site-font-display), system-ui, sans-serif;
+  --font-body: var(--site-font-body), system-ui, sans-serif;
+
+  --text-display: 2.5rem; /* 40px */
+  --text-display--line-height: 1.02;
+  --text-display--letter-spacing: -0.03em;
+  --text-display--font-weight: 500;
+
+  --text-title: 1.75rem; /* 28px */
+  --text-title--line-height: 1.1;
+  --text-title--letter-spacing: -0.02em;
+  --text-title--font-weight: 500;
+
+  --text-subtitle: 1.25rem; /* 20px */
+  --text-subtitle--line-height: 1.3;
+  --text-subtitle--letter-spacing: -0.01em;
+  --text-subtitle--font-weight: 600;
+
+  --text-lede: 1.3125rem; /* 21px */
+  --text-lede--line-height: 1.55;
+  --text-lede--font-weight: 400;
+
+  --text-body: 1.0625rem; /* 17px / 28px */
+  --text-body--line-height: 1.65;
+  --text-body--font-weight: 400;
+
+  --text-meta: 0.9375rem; /* 15px */
+  --text-meta--line-height: 1.5;
+  --text-meta--font-weight: 500; /* IBM Plex Sans is static — 450 does not exist */
+
+  --text-label: 0.75rem; /* 12px uppercase */
+  --text-label--line-height: 1.3;
+  --text-label--letter-spacing: 0.12em;
+  --text-label--font-weight: 600;
+
+  /* --- Shape ---------------------------------------------------------------
+   * Hard edges for structure, 4px on controls only so a button still reads as
+   * a control. Photographs are square-cornered. Nothing is `rounded-2xl`. */
+  --radius-control: 4px;
+  --radius-plate: 0px;
+
+  /* --- Rhythm ------------------------------------------------------------ */
+  --spacing-gutter: 1.25rem;
+  --spacing-block: 4rem;
+  --container-reading: 66ch;
+  --container-lede: 52ch;
+}
+
+/* ----------------------------------------------------------------------------
+ * Non-theme variables. These are not Tailwind namespaces — nothing generates a
+ * utility from them — so they live in a plain `:root` rule. They sit in the
+ * `base` layer so the two preview directions' UNLAYERED override blocks still
+ * win over them.
+ * ------------------------------------------------------------------------- */
+
+@layer base {
+  :root {
+    --site-measure: 1320px; /* page column cap; nothing grows past this */
+    --site-scroll-pad: 4.5rem; /* clears the 56px sticky action bar */
+    --site-icon-stroke: 2; /* one stroke weight, set once */
+    --site-motion: 150ms;
+    --site-ease: cubic-bezier(0, 0, 0.2, 1);
+    --site-focus-color: #0b5c53;
+    --site-focus-width: 2px;
+    --site-focus-offset: 2px;
+    --site-focus-color-on-dark: #6fcdbf; /* 10.1:1 on --color-dark */
+    --site-focus-color-on-accent: #ffffff;
+    --site-elev-plate: none; /* no shadows anywhere in this design */
+    --site-elev-dock: none;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+ * Responsive retuning. The type scale and spacing rhythm step up here rather
+ * than in the markup, so a component never carries a breakpoint-prefixed font
+ * size. Mobile-first: the block above is the 375px case.
+ *
+ * One breakpoint set for the whole site (48rem / 80rem, matching Tailwind's md
+ * and xl) because `--breakpoint-*` is build-time-only and media queries cannot
+ * read custom properties.
+ * ------------------------------------------------------------------------- */
+
+@layer base {
+  @media (width >= 48rem) {
+    :root {
+      --spacing-gutter: 2.5rem;
+      --spacing-block: 6rem;
+      --text-display: 3.75rem; /* 60px */
+      --text-title: 2rem; /* 32px */
+    }
+  }
+
+  @media (width >= 80rem) {
+    :root {
+      --spacing-gutter: 3.5rem;
+      --spacing-block: 7.5rem;
+      --text-display: 4.75rem; /* 76px */
+      --text-title: 2.375rem; /* 38px */
+    }
+  }
+}
+
+/* ----------------------------------------------------------------------------
+ * Elevation, routed around the un-scopable `--shadow-*` namespace (rule 2).
+ * Both resolve to `none` in this design; they exist so a future change has one
+ * place to make it.
+ * ------------------------------------------------------------------------- */
+
+@utility elev-dock {
+  box-shadow: var(--site-elev-dock, none);
+}
+
+@utility elev-plate {
+  box-shadow: var(--site-elev-plate, none);
+}
+
+/* ----------------------------------------------------------------------------
+ * Layout helpers.
+ *
+ * `measure` is the page column: capped by --site-measure, inset by
+ * --spacing-gutter. Because both are tokens retuned per breakpoint above,
+ * responsive layout is driven by the token set rather than by breakpoint
+ * prefixes sprinkled through the markup.
+ * ------------------------------------------------------------------------- */
+
+@utility measure {
+  width: min(var(--site-measure, 1320px), 100% - 2 * var(--spacing-gutter));
+  margin-inline: auto;
+}
+
+@utility block-y {
+  padding-block: var(--spacing-block);
+}
+
+/* ----------------------------------------------------------------------------
+ * The one motion utility. The design allows motion only for state changes,
+ * under 250ms, eased out — so that rule is encoded once instead of being
+ * re-decided at every call site.
+ *
+ * Deliberately NOT `transition-colors`: Tailwind's version includes
+ * `outline-color`, which makes the focus ring FADE IN from currentColor. That
+ * was visible under a real Tab press — the ring rendered mid-transition in the
+ * link's own text colour rather than the focus colour. A focus indicator has
+ * to be there the instant focus lands, so outline is excluded. `transform` is
+ * excluded too: a hover lift is decoration, not a state change.
+ * ------------------------------------------------------------------------- */
+
+@utility transition-state {
+  transition-property: color, background-color, border-color, opacity, text-decoration-color;
+  transition-duration: var(--site-motion, 150ms);
+  transition-timing-function: var(--site-ease, cubic-bezier(0, 0, 0.2, 1));
+}

@@ -1,0 +1,160 @@
+/* ============================================================================
+ * Direction A — Clinical Authority.
+ *
+ * A behaves like a document, not a brochure: a fixed measure on a wide sheet,
+ * hairline rules instead of cards, ZERO box-shadows anywhere, and a single
+ * photograph presented as a captioned plate. Separation comes from 1px rules
+ * and shifts between three paper values.
+ *
+ * CUSTOM PROPERTIES ONLY IN THIS FILE. These selectors are emitted unlayered,
+ * and unlayered normal declarations outrank every cascade layer — including
+ * `utilities`. One `background: #fff` in here and utilities stop working in a
+ * way that looks like a Tailwind bug.
+ *
+ * The dual selector is load-bearing, not stylistic:
+ *   [data-direction='a']              inherits into the subtree
+ *   :root:has([data-direction='a'])   puts the values on :root so `body` can
+ *                                     read them (see reset.css). Without this
+ *                                     half, all three previews share one page
+ *                                     background and base font.
+ * ========================================================================= */
+
+[data-direction='a'],
+:root:has([data-direction='a']) {
+  /* --- Color ---------------------------------------------------------------
+   * Near-monochrome warm paper with a single navy accent. Ratios are measured
+   * by scripts/audit-contrast.mjs, not estimated. No text in A uses anything
+   * below 8.9:1, which removes the usual small-caption contrast failure by
+   * construction rather than by vigilance. */
+  --color-canvas: #faf9f6; /* paper */
+  --color-surface: #ffffff; /* record card, plates */
+  --color-sunken: #f1eee7; /* the sticky contact rail */
+  --color-dark: #12273d; /* not used by A; kept valid for shared primitives */
+  --color-ink: #14191c; /* 16.8:1 on canvas */
+  --color-ink-muted: #3f484d; /* 8.9:1 on canvas — AAA, so captions are safe */
+  --color-ink-inv: #ffffff;
+  --color-ink-inv-muted: #c6d3e2; /* 6.3:1 on accent — labels only, never prose */
+  --color-hairline: #dfdcd3;
+  --color-border-strong: #8c8578; /* 3.5:1 — clears 1.4.11 for field borders */
+  --color-accent: #1b3a5c; /* 11.0:1 on canvas */
+  --color-accent-hover: #12273d; /* 14.4:1 on canvas */
+  --color-accent-inv: #c6d3e2;
+  --color-on-accent: #ffffff; /* 11.6:1 on accent */
+
+  /* --- Type ----------------------------------------------------------------
+   * Source Serif 4 carries BOTH the headlines and the body. That single
+   * decision is what makes A read academic rather than merely
+   * serif-headlined — it is how a journal sets type. Libre Franklin is
+   * confined to the functional layer: labels, record-card terms, captions,
+   * the phone number.
+   *
+   * Source Serif 4's optical-size axis is doing real work here: `opsz` is set
+   * per step, so the 44px headline gets the display cut (finer hairlines,
+   * tighter spacing) and the 18px body gets the text cut (sturdier strokes,
+   * more generous spacing) from one family.
+   *
+   * Display 44px against label 12px is a 3.67:1 scale ratio — restrained on
+   * purpose. A is not trying to be dramatic. */
+  /* Set directly, not via an intermediate token — see the note in tokens.css.
+   * `--pv-a-serif` / `--pv-a-sans` come from lib/preview-fonts/direction-a.ts and only
+   * exist on the wrapper element, so these must resolve there. */
+  --font-display: var(--pv-a-serif), Georgia, serif;
+  --font-body: var(--pv-a-serif), Georgia, serif;
+  --pv-font-meta: var(--pv-a-sans), system-ui, sans-serif;
+
+  --text-display: 2.125rem; /* 34px */
+  --text-display--line-height: 1.1;
+  --text-display--letter-spacing: -0.02em;
+  --text-display--font-weight: 400;
+
+  --text-title: 1.625rem; /* 26px */
+  --text-title--line-height: 1.15;
+  --text-title--letter-spacing: -0.015em;
+  --text-title--font-weight: 500;
+
+  --text-subtitle: 1.3125rem; /* 21px */
+  --text-subtitle--line-height: 1.3;
+  --text-subtitle--letter-spacing: -0.005em;
+  --text-subtitle--font-weight: 600;
+
+  --text-lede: 1.25rem; /* 20px */
+  --text-lede--line-height: 1.6;
+  --text-lede--font-weight: 400;
+
+  --text-body: 1.125rem; /* 18px / 30px — brief floor is 17px / 1.6 */
+  --text-body--line-height: 1.67;
+  --text-body--font-weight: 400;
+
+  --text-meta: 0.9375rem; /* 15px, Libre Franklin */
+  --text-meta--line-height: 1.55;
+  --text-meta--letter-spacing: 0.005em;
+  --text-meta--font-weight: 450;
+
+  --text-label: 0.75rem; /* 12px uppercase, Libre Franklin */
+  --text-label--line-height: 1.35;
+  --text-label--letter-spacing: 0.1em;
+  --text-label--font-weight: 600;
+
+  /* --- Shape ---------------------------------------------------------------
+   * Radius 0 on everything, including photographs. 2px on controls only, so a
+   * button still reads as a control rather than a block of colour. This is A's
+   * single strongest differentiator from a generic clean medical site. */
+  --radius-plate: 0px;
+  --radius-control: 2px;
+
+  /* Zero elevation. Not "subtle shadows" — none. */
+  --site-elev-plate: none;
+  --site-elev-dock: none;
+
+  /* --- Rhythm ------------------------------------------------------------ */
+  --spacing-gutter: 1.5rem; /* 24px; 40px at 768, 72px at 1280 */
+  --spacing-block: 4rem; /* 64px; 96px at 768, 128px at 1280 */
+  --container-reading: 68ch;
+  --container-lede: 58ch;
+
+  /* --- Chrome and interaction ------------------------------------------- */
+  --site-measure: 1080px; /* hard cap — nothing grows at 1920 */
+  --site-scroll-pad: 3.5rem; /* the 44px sticky rail + a little air */
+  /* A's entire motion budget: one 120ms ease-out colour transition on
+   * interactive elements, applied via the shared `transition-state` utility.
+   * No transforms, no opacity animation, no scroll-triggered anything. */
+  --site-motion: 120ms;
+  --site-ease: cubic-bezier(0, 0, 0.2, 1);
+  --site-icon-stroke: 1.5; /* lightest of the three, to match the serif */
+  --site-focus-color: #1b3a5c; /* 11.0:1 on canvas */
+  --site-focus-width: 2px;
+  --site-focus-offset: 3px;
+  --site-focus-color-on-accent: #faf9f6; /* 11.6:1 inside the accent band */
+}
+
+/* ----------------------------------------------------------------------------
+ * Responsive retuning — still custom properties only.
+ *
+ * The type scale and the spacing rhythm scale here rather than in the markup,
+ * so no component carries `md:text-...` / `lg:py-...`. Mobile-first: the block
+ * above is the 375px case and these widen it.
+ *
+ * All three directions share one breakpoint set (48rem / 80rem, matching
+ * Tailwind's md and xl) because `--breakpoint-*` is build-time-only in
+ * Tailwind v4 and media queries cannot read custom properties.
+ * ------------------------------------------------------------------------- */
+
+@media (width >= 48rem) {
+  [data-direction='a'],
+  :root:has([data-direction='a']) {
+    --spacing-gutter: 2.5rem; /* 40px */
+    --spacing-block: 6rem; /* 96px */
+    --text-display: 2.375rem; /* 38px */
+    --text-title: 1.75rem; /* 28px */
+  }
+}
+
+@media (width >= 80rem) {
+  [data-direction='a'],
+  :root:has([data-direction='a']) {
+    --spacing-gutter: 4.5rem; /* 72px */
+    --spacing-block: 8rem; /* 128px */
+    --text-display: 2.75rem; /* 44px — A's ceiling. It does not grow at 1920. */
+    --text-title: 1.875rem; /* 30px */
+  }
+}

@@ -1,0 +1,145 @@
+/* ============================================================================
+ * Base reset.
+ *
+ * Tailwind's Preflight is still not imported — see the note in globals.css.
+ * This file replaces it, and does more than it would: the retired `legacy`
+ * layer used to style bare elements heavily (`h1` alone carried nine
+ * properties including `font-size: clamp(3.4rem, 5.6vw, 5.7rem)`), so the
+ * reset has to null the whole property set rather than just margins. Missing
+ * one property is how a stray 91px serif heading reappears.
+ *
+ * Everything is wrapped in `:where()` for zero specificity, so a single
+ * utility always wins and no rule here ever needs `!important`.
+ *
+ * Lives in `@layer base`, which sits before `components` and `utilities`.
+ * ========================================================================= */
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: var(--site-scroll-pad, 0px);
+  }
+
+  /* Smooth scrolling is a preference, not a default. */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* `font: inherit` resets family, size, weight, style, stretch AND
+   * line-height in one declaration; the rest have to be named individually. */
+  :where(h1, h2, h3, h4, h5, h6) {
+    margin: 0;
+    font: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+    text-wrap: inherit;
+    max-width: none;
+  }
+
+  :where(p, ul, ol, dl, dd, figure, figcaption, blockquote, fieldset, pre, hr) {
+    margin: 0;
+    padding: 0;
+  }
+
+  :where(ul, ol) {
+    list-style: none;
+  }
+
+  :where(a) {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  /* Inline semantic elements keep their meaning for assistive tech but carry
+   * no inherited appearance, so each usage decides explicitly what emphasis
+   * looks like. (The old design tinted every `h1 em` teal from a bare element
+   * rule, which leaked into anything reusing the markup.) */
+  :where(em, i, b, strong, cite, q) {
+    color: inherit;
+    font-style: inherit;
+    font-weight: inherit;
+  }
+
+  :where(button, input, select, textarea, optgroup) {
+    margin: 0;
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: 0;
+    letter-spacing: inherit;
+  }
+
+  :where(button) {
+    cursor: pointer;
+    text-align: inherit;
+  }
+
+  /* `height: auto` is load-bearing and easy to omit. Without it every
+   * next/image renders at its literal `height` attribute regardless of its
+   * rendered width — a 400px-wide portrait came out 1402px tall, aspect ratio
+   * silently destroyed. `next/image` with `fill` sets height inline, and
+   * inline styles beat a stylesheet, so object-fit crops are unaffected. */
+  :where(img, picture, svg, video, canvas) {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  :where(table) {
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+
+  /* One icon stroke weight for the whole site, set once. Lucide sets
+   * stroke-width as an SVG presentation attribute, and CSS beats presentation
+   * attributes, so this wins — while a utility can still override a single
+   * deliberate exception. */
+  :where(svg) {
+    stroke-width: var(--site-icon-stroke, 2);
+  }
+
+  /* The old global focus ring was `3px solid #d6a752` — 1.9:1 against light
+   * paper, a real WCAG 1.4.11 failure. This one measures 7.9:1 on the page
+   * ground, and inverted surfaces raise --site-focus-color locally. */
+  :where(:focus-visible) {
+    outline: var(--site-focus-width, 2px) solid var(--site-focus-color, currentColor);
+    outline-offset: var(--site-focus-offset, 2px);
+  }
+}
+
+/* ----------------------------------------------------------------------------
+ * Reduced motion. Layered `!important` beats every later layer, because for
+ * important declarations the cascade-layer order is reversed — so this cannot
+ * be defeated by a utility.
+ * ------------------------------------------------------------------------- */
+
+@layer base {
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+    }
+  }
+}
