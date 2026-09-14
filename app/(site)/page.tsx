@@ -24,9 +24,6 @@ import { practice } from '@/content/practice'
  * flagged UNVERIFIED in content/practice.ts.
  */
 
-/** The hero's action block needs a label and no existing copy fills the slot. */
-const ACTION_BLOCK_LABEL = '[PLACEHOLDER: hero action-block label, e.g. "New and current patients"]'
-
 export default function HomePage() {
   const { hero, visitSection, appointmentCta } = practice.copy
   const { phone, address, mapsUrl } = practice.contact
@@ -46,11 +43,14 @@ export default function HomePage() {
             <p className="max-w-lede pt-8 text-lede text-ink-muted">{hero.intro}</p>
           </div>
 
+          {/* No heading on this block on purpose. It used to carry one, which
+              meant inventing a label the practice had not approved; the button
+              already says what the block is for, and the phone number and
+              hours below it are self-describing. */}
           <div className="border border-hairline p-6 xl:mt-4">
-            <p className="text-label text-ink-muted uppercase">{ACTION_BLOCK_LABEL}</p>
             <Link
               href={practice.navCta.href}
-              className="mt-5 flex min-h-[3.25rem] items-center justify-between gap-3 rounded-control bg-accent px-5 text-meta font-semibold text-on-accent transition-state hover:bg-accent-hover"
+              className="flex min-h-[3.25rem] items-center justify-between gap-3 rounded-control bg-accent px-5 text-meta font-semibold text-on-accent transition-state hover:bg-accent-hover"
             >
               {practice.navCta.label}
               <Glyph as={UI.arrowRight} />
