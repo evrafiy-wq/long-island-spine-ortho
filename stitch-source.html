@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Long Island Spine and Orthopedics | Hicksville, NY</title>
+<meta content="Long Island Spine and Orthopedics provides patient-focused spine, orthopedic, and rehabilitation care in Hicksville, New York." name="description"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&amp;family=Public+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+              "on-secondary-container": "#007168",
+              "border-line": "#d6e1de",
+              "on-primary-container": "#7a9eb1",
+              "on-primary-fixed": "#001f2b",
+              "surface-container": "#efeeeb",
+              "surface-variant": "#e3e2e0",
+              "on-background": "#1a1c1a",
+              "on-secondary-fixed": "#00201d",
+              "surface-container-high": "#e9e8e5",
+              "error-container": "#ffdad6",
+              "secondary-fixed-dim": "#7cd6cb",
+              "teal-soft": "#087970",
+              "tertiary-fixed": "#ffddae",
+              "on-secondary-fixed-variant": "#00504a",
+              "outline": "#72787c",
+              "secondary-fixed": "#98f3e7",
+              "primary": "#0c3545",
+              "on-secondary": "#ffffff",
+              "surface-container-lowest": "#ffffff",
+              "on-error-container": "#93000a",
+              "tertiary": "#291900",
+              "inverse-primary": "#a7cce0",
+              "inverse-surface": "#2f312f",
+              "primary-container": "#0c3545",
+              "on-tertiary": "#ffffff",
+              "background": "#faf9f6",
+              "teal-pale": "#e3f0ed",
+              "primary-fixed": "#c3e8fd",
+              "surface-bright": "#faf9f6",
+              "error": "#ba1a1a",
+              "primary-fixed-dim": "#a7cce0",
+              "surface-dim": "#dbdad7",
+              "on-tertiary-container": "#bd914a",
+              "surface-container-highest": "#e3e2e0",
+              "tertiary-container": "#442c00",
+              "outline-variant": "#c1c7cc",
+              "ink-soft": "#536a74",
+              "on-tertiary-fixed": "#281800",
+              "on-tertiary-fixed-variant": "#604000",
+              "tertiary-fixed-dim": "#efbe73",
+              "surface": "#faf9f6",
+              "secondary": "#087970",
+              "gold-pale": "#f4ead9",
+              "secondary-container": "#98f3e7",
+              "on-surface": "#1a1c1a",
+              "on-primary-fixed-variant": "#274b5c",
+              "on-primary": "#ffffff",
+              "inverse-on-surface": "#f1f1ee",
+              "mist": "#f0f5f3",
+              "surface-tint": "#3f6374",
+              "on-error": "#ffffff",
+              "on-surface-variant": "#41484b",
+              "surface-container-low": "#f4f3f1"
+            },
+            "borderRadius": {
+              "DEFAULT": "8px",
+              "lg": "8px",
+              "xl": "12px",
+              "full": "9999px"
+            },
+            "fontFamily": {
+              "headline": ["Lora", "serif"],
+              "body": ["Public Sans", "sans-serif"]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+      body {
+        font-family: 'Public Sans', sans-serif;
+        background-color: #faf9f6;
+        color: #1a1c1a;
+      }
+      h1, h2, h3, h4, .font-headline {
+        font-family: 'Lora', serif;
+      }
+      .container {
+        max-width: 1280px;
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 24px;
+        padding-right: 24px;
+      }
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 48px;
+        align-items: center;
+      }
+      .portrait-frame {
+        position: relative;
+        padding: 24px;
+      }
+      .portrait-frame::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 80%;
+        height: 90%;
+        background-color: #e3f0ed;
+        z-index: 0;
+        border-radius: 8px;
+      }
+      .portrait-img {
+        position: relative;
+        z-index: 1;
+        border-radius: 8px;
+        box-shadow: 16px 16px 0px 0px #0c3545;
+        width: 100%;
+        aspect-ratio: 4/5;
+        object-fit: cover;
+      }
+      .asymmetric-care-grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 24px;
+      }
+      .care-panel {
+        background: #ffffff;
+        border: 1px solid #d6e1de;
+        padding: 40px;
+        transition: transform 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        border-radius: 8px;
+        box-shadow: 4px 4px 0px 0px rgba(12, 53, 69, 0.05);
+      }
+      .care-panel:hover {
+        transform: translateY(-4px);
+        border-color: #087970;
+      }
+      .panel-label {
+        font-family: 'Public Sans', sans-serif;
+        font-weight: 700;
+        font-size: 12px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #0c3545;
+        margin-bottom: 16px;
+        display: block;
+      }
+      .nav-cta {
+        background-color: #0c3545;
+        color: #ffffff;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: background-color 0.2s;
+      }
+      .nav-cta:hover {
+        background-color: #274b5c;
+      }
+      .skip-link {
+        position: absolute;
+        top: -100px;
+        left: 0;
+        background: #0c3545;
+        color: white;
+        padding: 8px;
+        z-index: 100;
+      }
+      .skip-link:focus {
+        top: 0;
+      }
+    </style>
+</head>
+<body class="antialiased">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<!-- Utility Bar -->
+<div class="bg-[#0c3545] text-white py-2 text-sm">
+<div class="container flex justify-between items-center font-body">
+<p class="font-semibold">Long Island Spine and Orthopedics</p>
+<div class="flex gap-6">
+<a class="hover:text-teal-soft transition-colors underline-offset-4 hover:underline" href="tel:5164331100">Call (516) 433-1100</a>
+<span class="opacity-40">|</span>
+<a class="hover:text-teal-soft transition-colors underline-offset-4 hover:underline" href="#visit">Hicksville, NY</a>
+</div>
+</div>
+</div>
+<!-- Header -->
+<header class="bg-white border-b border-surface-variant sticky top-0 z-50">
+<div class="container py-4 flex justify-between items-center">
+<a class="flex items-center gap-3" href="#top">
+<div class="w-10 h-10 bg-primary text-white flex items-center justify-center font-headline text-xl rounded">S</div>
+<div class="leading-tight">
+<span class="block text-[10px] uppercase tracking-widest font-bold text-ink-soft">Long Island</span>
+<strong class="font-headline text-lg text-primary">Spine and Orthopedics</strong>
+</div>
+</a>
+<nav class="hidden lg:flex items-center gap-8 font-body text-sm font-semibold text-primary">
+<a class="hover:text-secondary transition-colors" href="#care">Care and services</a>
+<a class="hover:text-secondary transition-colors" href="#doctor">Meet Dr. Rafiy</a>
+<a class="hover:text-secondary transition-colors" href="#practice">Our practice</a>
+<a class="hover:text-secondary transition-colors" href="#faq">FAQ</a>
+<a class="hover:text-secondary transition-colors" href="#visit">Visit us</a>
+<a class="nav-cta" href="#appointment">
+                Request an appointment
+                <svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 16 16"><path d="M2 8h11M9 3l5 5-5 5"></path></svg>
+</a>
+</nav>
+</div>
+</header>
+<main id="main-content">
+<!-- HERO SECTION -->
+<section class="relative pt-20 pb-32 overflow-hidden" id="top">
+<div class="absolute top-0 right-0 w-1/3 h-full bg-mist -z-10 translate-x-1/2 skew-x-12"></div>
+<div class="container hero-grid">
+<div class="hero-copy pr-12">
+<span class="panel-label">Patient-Centered Orthopedic Care</span>
+<h1 class="text-6xl lg:text-7xl font-headline text-primary leading-[1.1] mb-8">
+                    Care that helps you return to <em class="italic font-normal">what moves you.</em>
+</h1>
+<p class="text-xl text-on-surface-variant mb-10 max-w-xl leading-relaxed">
+                    Clear answers, thoughtful treatment, and a plan designed around your goals. Long Island Spine and Orthopedics provides focused spine and orthopedic care in Hicksville.
+                </p>
+<div class="flex flex-wrap gap-4 items-center mb-16">
+<a class="bg-primary text-white px-8 py-4 rounded font-semibold hover:bg-on-primary-fixed-variant transition-colors" href="#appointment">Request an appointment</a>
+<a class="text-primary font-bold flex items-center gap-2 hover:translate-x-1 transition-transform" href="tel:5164331100">Call (516) 433-1100 <span>→</span></a>
+</div>
+<div class="grid grid-cols-2 gap-8 pt-8 border-t border-border-line">
+<div class="flex gap-4">
+<div class="w-10 h-10 flex-shrink-0 bg-teal-pale text-on-secondary-container flex items-center justify-center rounded">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+</div>
+<div>
+<h4 class="font-bold text-primary text-sm uppercase tracking-wider mb-1">Board Certified</h4>
+<p class="text-xs text-on-surface-variant">ABOS Certified Orthopedic Surgery</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="w-10 h-10 flex-shrink-0 bg-teal-pale text-on-secondary-container flex items-center justify-center rounded">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+</div>
+<div>
+<h4 class="font-bold text-primary text-sm uppercase tracking-wider mb-1">Multi-Lingual</h4>
+<p class="text-xs text-on-surface-variant">English, French and Spanish Spoken</p>
+</div>
+</div>
+</div>
+</div>
+<div class="hero-portrait-wrap relative lg:block hidden">
+<div class="portrait-frame">
+<img alt="Dr. Philip M. Rafiy, MD" class="portrait-img" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAB1ASzY2RRQsgNleO_8Fl5VJvG9L1cuETC_P8MQWSCI0C2LDdTDpW9y4q07JN5uF8s0OHyFDyG-le8A61Y6HE9216qnCzJZEC-5Pr3bbwIROcprUW0IXT0P98LLOaYyVvNXZqSSsdWX_vaAnK9VwJB9cT5wMnh1LqKoFtwbz8n9Qd64Ryeoyi544MSFQdcXzRG9wioT6FeZYvZLMfbH-IBNZAA0Aqai1--Csea6mBWdbY8mhPYuEZsUnD1JfWCFKNn6R7hLitpJ-CL"/>
+<!-- Anchor card firmly inside portrait frame bounds -->
+<div class="absolute bottom-6 right-6 bg-white p-6 border border-border-line shadow-[8px_8px_0px_0px_rgba(12,53,69,1)] max-w-[240px] z-10">
+<p class="font-headline text-lg text-primary leading-tight mb-2">Dr. Philip M. Rafiy, MD</p>
+<p class="text-sm font-semibold text-teal-soft uppercase tracking-tighter">Spine and Orthopedic Surgery</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Trust Bar -->
+<section class="bg-primary text-white py-12">
+<div class="container">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left divide-y md:divide-y-0 md:divide-x divide-white/10">
+<div class="py-4 md:py-0 md:px-8">
+<p class="text-sm font-body leading-relaxed opacity-90 italic">"Evidence-based care for spine, orthopedic, and musculoskeletal needs."</p>
+</div>
+<div class="py-4 md:py-0 md:px-8">
+<p class="text-sm font-body leading-relaxed opacity-90 italic">"Clear communication from your first visit through recovery."</p>
+</div>
+<div class="py-4 md:py-0 md:px-8">
+<p class="text-sm font-body leading-relaxed opacity-90 italic">"Individualized treatment options built around your life."</p>
+</div>
+</div>
+</div>
+</section>
+<!-- CARE SECTION -->
+<section class="py-32 bg-surface-container-lowest" id="care">
+<div class="container">
+<div class="mb-20 max-w-2xl">
+<span class="panel-label">Clinical Focus</span>
+<h2 class="text-5xl font-headline text-primary mb-6">Expertise built for stability.</h2>
+<p class="text-lg text-on-surface-variant">
+                    We take time to understand your symptoms, explain your options in plain language, and help you take the next step with confidence.
+                </p>
+</div>
+<div class="asymmetric-care-grid">
+<!-- Spine Care -->
+<article class="care-panel col-span-12 md:col-span-7 relative overflow-hidden">
+<div class="absolute -right-10 -bottom-10 w-64 h-64 bg-teal-pale/30 rounded-full blur-3xl -z-10"></div>
+<div>
+<span class="panel-label">Clinical Anatomy 01</span>
+<h3 class="text-3xl font-headline text-primary mb-4">Spine Care and Microsurgery</h3>
+<p class="text-on-surface-variant leading-relaxed mb-6">
+                            Specialized evaluation for complex spinal conditions. From herniated discs to stenosis, we provide surgical and non-surgical pathways designed for your specific comfort and long-term function.
+                        </p>
+</div>
+<ul class="space-y-3 pt-6 border-t border-border-line mt-auto">
+<li class="flex items-center gap-3 text-sm font-semibold text-primary">
+<svg class="w-4 h-4 text-teal-soft" fill="none" stroke="currentColor" stroke-width="3" viewbox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg>
+                            Disc Herniation Treatments
+                        </li>
+<li class="flex items-center gap-3 text-sm font-semibold text-primary">
+<svg class="w-4 h-4 text-teal-soft" fill="none" stroke="currentColor" stroke-width="3" viewbox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg>
+                            Spinal Stenosis Decompression
+                        </li>
+</ul>
+</article>
+<!-- Orthopedic Care -->
+<article class="care-panel col-span-12 md:col-span-5 bg-primary text-white border-none shadow-[8px_8px_0px_0px_rgba(8,121,112,0.3)]">
+<div>
+<span class="panel-label text-teal-soft">Clinical Anatomy 02</span>
+<h3 class="text-3xl font-headline mb-4">Orthopedic Medicine</h3>
+<p class="opacity-80 leading-relaxed mb-8">
+                            Comprehensive care for adult musculoskeletal conditions, joint injuries, and mobility concerns.
+                        </p>
+</div>
+<div class="mt-auto">
+<div class="p-6 bg-white/10 rounded-lg backdrop-blur-sm border border-white/10">
+<h4 class="text-xs uppercase tracking-widest font-bold mb-4 opacity-60">Focus Areas</h4>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 bg-white/20 rounded text-[10px] font-bold">Knee and Hip</span>
+<span class="px-3 py-1 bg-white/20 rounded text-[10px] font-bold">Shoulder Repair</span>
+<span class="px-3 py-1 bg-white/20 rounded text-[10px] font-bold">Fracture Care</span>
+</div>
+</div>
+</div>
+</article>
+<!-- Recovery -->
+<article class="care-panel col-span-12 md:col-span-4 mt-0 md:-mt-12 bg-mist border-teal-soft/30">
+<div>
+<span class="panel-label">Clinical Anatomy 03</span>
+<h3 class="text-2xl font-headline text-primary mb-3">Rehabilitation Planning</h3>
+<p class="text-sm text-on-surface-variant mb-6">
+                            Safe recovery protocols built around post-operative milestones or conservative management strategies.
+                        </p>
+</div>
+<a class="text-sm font-bold text-teal-soft hover:text-primary transition-colors flex items-center gap-2" href="#appointment">
+                        Learn about recovery <span>→</span>
+</a>
+</article>
+<!-- Second Opinion -->
+<article class="care-panel col-span-12 md:col-span-8 bg-white border-dashed border-2 border-border-line">
+<div class="flex flex-col md:flex-row gap-8 items-center">
+<div class="flex-1">
+<span class="panel-label">Expert Consultation</span>
+<h3 class="text-2xl font-headline text-primary mb-2">Second Opinions</h3>
+<p class="text-sm text-on-surface-variant">
+                                Seeking clarity before a major procedure? We provide comprehensive reviews of existing diagnostic imaging and treatment proposals to give you the confidence you deserve.
+                            </p>
+</div>
+<div class="hidden md:block w-[1px] h-20 bg-border-line"></div>
+<div class="flex-shrink-0">
+<a class="inline-block border-2 border-primary px-6 py-3 rounded font-bold text-primary hover:bg-primary hover:text-white transition-all text-sm" href="#appointment">Schedule a Review</a>
+</div>
+</div>
+</article>
+</div>
+</div>
+</section>
+<!-- Condition Guide -->
+<section class="py-24 bg-surface" id="conditions-guide">
+<div class="container">
+<div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+<div class="max-w-xl">
+<span class="panel-label">Reference Guide</span>
+<h2 class="text-4xl font-headline text-primary mb-4">Treated Conditions</h2>
+<p class="text-on-surface-variant">Explore common musculoskeletal conditions and typical treatment approaches provided at our facility.</p>
+</div>
+<div class="flex gap-2 p-1 bg-surface-container rounded-lg border border-border-line font-body text-xs font-bold">
+<button class="px-6 py-3 rounded-md bg-white shadow-sm text-primary transition-all">Spine</button>
+<button class="px-6 py-3 rounded-md hover:bg-white/50 text-on-surface-variant transition-all">Joints</button>
+<button class="px-6 py-3 rounded-md hover:bg-white/50 text-on-surface-variant transition-all">Non-Surgical</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="p-8 border border-border-line rounded-lg bg-white shadow-[4px_4px_0px_0px_rgba(12,53,69,0.05)]">
+<h4 class="font-headline text-xl text-primary mb-4">Herniated Disc</h4>
+<p class="text-sm text-on-surface-variant mb-6 leading-relaxed">Soft center of a spinal disc pushes through a tear in the outer ring, compressing nerves.</p>
+<div class="space-y-4">
+<div>
+<p class="text-[10px] uppercase font-bold text-teal-soft tracking-wider mb-2">Symptoms</p>
+<p class="text-sm text-primary font-semibold">Sciatica, leg pain, numbness</p>
+</div>
+<div>
+<p class="text-[10px] uppercase font-bold text-teal-soft tracking-wider mb-2">Approaches</p>
+<p class="text-sm text-primary font-semibold">PT, injections, Microdiscectomy</p>
+</div>
+</div>
+</div>
+<div class="p-8 border border-border-line rounded-lg bg-white shadow-[4px_4px_0px_0px_rgba(12,53,69,0.05)]">
+<h4 class="font-headline text-xl text-primary mb-4">Spinal Stenosis</h4>
+<p class="text-sm text-on-surface-variant mb-6 leading-relaxed">Narrowing of spinal spaces restricting the spinal cord and nerve roots.</p>
+<div class="space-y-4">
+<div>
+<p class="text-[10px] uppercase font-bold text-teal-soft tracking-wider mb-2">Symptoms</p>
+<p class="text-sm text-primary font-semibold">Cramping when walking, stiffness</p>
+</div>
+<div>
+<p class="text-[10px] uppercase font-bold text-teal-soft tracking-wider mb-2">Approaches</p>
+<p class="text-sm text-primary font-semibold">Injections, surgical decompression</p>
+</div>
+</div>
+</div>
+<div class="p-8 border border-border-line rounded-lg bg-white shadow-[4px_4px_0px_0px_rgba(12,53,69,0.05)]">
+<h4 class="font-headline text-xl text-primary mb-4">Disc Disease</h4>
+<p class="text-sm text-on-surface-variant mb-6 leading-relaxed">Gradual wearing down of spinal discs, resulting in loss of shock-absorption.</p>
+<div class="space-y-4">
+<div>
+<p class="text-[10px] uppercase font-bold text-teal-soft tracking-wider mb-2">Symptoms</p>
+<p class="text-sm text-primary font-semibold">Ache worse with sitting or bending</p>
+</div>
+<div>
+<p class="text-[10px] uppercase font-bold text-teal-soft tracking-wider mb-2">Approaches</p>
+<p class="text-sm text-primary font-semibold">Facet blocks, stabilization therapy</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Physician Section -->
+<section class="py-32 bg-primary text-white" id="doctor">
+<div class="container grid md:grid-cols-2 gap-20 items-center">
+<div class="relative order-2 md:order-1">
+<img alt="Dr. Philip M. Rafiy" class="rounded-lg shadow-[16px_16px_0px_0px_rgba(8,121,112,0.4)] transition-all duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAB1ASzY2RRQsgNleO_8Fl5VJvG9L1cuETC_P8MQWSCI0C2LDdTDpW9y4q07JN5uF8s0OHyFDyG-le8A61Y6HE9216qnCzJZEC-5Pr3bbwIROcprUW0IXT0P98LLOaYyVvNXZqSSsdWX_vaAnK9VwJB9cT5wMnh1LqKoFtwbz8n9Qd64Ryeoyi544MSFQdcXzRG9wioT6FeZYvZLMfbH-IBNZAA0Aqai1--Csea6mBWdbY8mhPYuEZsUnD1JfWCFKNn6R7hLitpJ-CL"/>
+<div class="absolute -bottom-8 -right-8 w-40 h-40 bg-teal-soft/20 rounded-full blur-2xl"></div>
+</div>
+<div class="order-1 md:order-2">
+<span class="panel-label text-teal-soft">The Physician</span>
+<h2 class="text-5xl font-headline mb-8">Clinical experience you can trust.</h2>
+<p class="text-lg opacity-80 mb-10 leading-relaxed">
+                    Dr. Philip M. Rafiy is an experienced orthopedic surgeon specializing in spine surgery and adult musculoskeletal care. He is committed to helping each patient understand their condition and take clear steps toward healing.
+                </p>
+<div class="space-y-6">
+<div class="pb-6 border-b border-white/10">
+<h4 class="text-xs uppercase font-bold tracking-widest text-teal-soft mb-2">Certification</h4>
+<p class="text-sm font-semibold">American Board of Orthopedic Surgery</p>
+</div>
+<div class="pb-6 border-b border-white/10">
+<h4 class="text-xs uppercase font-bold tracking-widest text-teal-soft mb-2">Education</h4>
+<p class="text-sm font-semibold">MD, State University of New York</p>
+</div>
+<div class="pb-6 border-b border-white/10">
+<h4 class="text-xs uppercase font-bold tracking-widest text-teal-soft mb-2">Academic Role</h4>
+<p class="text-sm font-semibold">Adjunct Assistant Professor, NYU Grossman Long Island School of Medicine</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Visit Us (High Priority Location Section) -->
+<section class="py-24 bg-cream" id="visit">
+<div class="container">
+<div class="grid md:grid-cols-2 gap-16 items-center">
+<div>
+<span class="panel-label">Hicksville Clinic</span>
+<h2 class="text-5xl font-headline text-primary mb-6">Convenient care, close to home.</h2>
+<address class="not-italic text-2xl text-primary font-bold mb-8 block font-headline">
+                        87 W Old Country Rd<br/>Hicksville, NY 11801
+                    </address>
+<div class="grid grid-cols-2 gap-8 mb-10">
+<div>
+<p class="text-[10px] uppercase font-bold text-on-surface-variant mb-2">Office Hours</p>
+<ul class="text-sm space-y-1 font-semibold text-primary">
+<li class="flex justify-between"><span>Mon–Fri</span> <span>9am–5pm</span></li>
+<li class="flex justify-between"><span>Sat–Sun</span> <span class="opacity-40">Closed</span></li>
+</ul>
+</div>
+<div>
+<p class="text-[10px] uppercase font-bold text-on-surface-variant mb-2">Parking</p>
+<p class="text-sm font-semibold text-primary">Free private onsite parking behind building</p>
+</div>
+</div>
+<a class="inline-flex items-center gap-2 text-teal-soft font-bold text-lg hover:text-primary transition-colors" href="https://maps.google.com" target="_blank">
+                        Open in Google Maps <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+</a>
+</div>
+<div class="relative group">
+<div class="absolute -inset-4 bg-teal-pale -z-10 group-hover:rotate-1 transition-transform border border-border-line"></div>
+<img alt="Hicksville Office Exterior" class="rounded shadow-[16px_16px_0px_0px_rgba(12,53,69,1)] w-full h-[450px] object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_UR6E3OcJcAqM3zfkZrDuvzmcn9JuEXjIXqTkdlaCaSLLAjPGYFM9wUTlVkoR2MYl0yes9RO1MQNBzOhLY4-r8HaTt7mtaolg3x6WOrsEzJbYEhBSo8RFq5yVfDnvu6lqDbzTxO7ibGr2BGcLc1WxQLrfAxOMaDoPjiUTNWMvxHYd18G5ue-_sSQ4Yrzkz36QqkbtmMzQIbZ2dSjKODM-Wfkzk0tgB97BbxAQnVZ9y0M-hSq6C73BERoeInktBc8Feg6kJMy2tUlw"/>
+<div class="absolute bottom-6 left-6 bg-white px-6 py-3 text-xs font-bold uppercase tracking-widest text-primary border border-border-line shadow-[4px_4px_0px_0px_rgba(8,121,112,1)]">
+                        87 W Old Country Rd
+                    </div>
+</div>
+</div>
+</div>
+</section>
+<!-- Steps Section -->
+<section class="py-32 bg-mist" id="practice">
+<div class="container grid md:grid-cols-2 gap-20">
+<div>
+<span class="panel-label">Our Approach</span>
+<h2 class="text-4xl font-headline text-primary mb-8 leading-tight">A straightforward path to care.</h2>
+<p class="text-lg text-on-surface-variant mb-12">You deserve to understand what is happening and what comes next. Our team is here to make each part of your care feel more manageable.</p>
+<a class="nav-cta" href="#appointment">Speak with our office</a>
+</div>
+<div class="space-y-12">
+<div class="flex gap-8">
+<span class="font-headline text-5xl text-teal-soft opacity-40">01</span>
+<div>
+<h3 class="text-xl font-headline text-primary mb-2">Start with a conversation</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">Call our office to request an appointment and let us know how we can best support you.</p>
+</div>
+</div>
+<div class="flex gap-8">
+<span class="font-headline text-5xl text-teal-soft opacity-40">02</span>
+<div>
+<h3 class="text-xl font-headline text-primary mb-2">Get a focused evaluation</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">We listen carefully, review your concerns, and work toward a clear understanding of your condition.</p>
+</div>
+</div>
+<div class="flex gap-8">
+<span class="font-headline text-5xl text-teal-soft opacity-40">03</span>
+<div>
+<h3 class="text-xl font-headline text-primary mb-2">Move forward with a plan</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">Together, we discuss treatment options and identify practical next steps for recovery and mobility.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Resources -->
+<section class="py-24 bg-white" id="resources">
+<div class="container">
+<div class="text-center mb-16">
+<span class="panel-label mx-auto">Patient Resources</span>
+<h2 class="text-4xl font-headline text-primary mb-4">Patient Forms and Registration</h2>
+<p class="text-on-surface-variant max-w-xl mx-auto">Save time during your first visit by downloading and filling out our registration forms in advance.</p>
+</div>
+<div class="grid md:grid-cols-3 gap-6">
+<a class="p-8 border border-border-line rounded hover:border-teal-soft transition-colors flex flex-col items-center text-center shadow-[4px_4px_0px_0px_rgba(12,53,69,0.05)]" href="#">
+<div class="w-12 h-12 mb-6 bg-mist text-primary flex items-center justify-center rounded">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"></path></svg>
+</div>
+<h3 class="font-bold text-primary mb-2">New Patient Intake</h3>
+<p class="text-xs text-on-surface-variant mb-4">Required demographic info</p>
+<span class="text-teal-soft font-bold text-xs uppercase">Download PDF</span>
+</a>
+<a class="p-8 border border-border-line rounded hover:border-teal-soft transition-colors flex flex-col items-center text-center shadow-[4px_4px_0px_0px_rgba(12,53,69,0.05)]" href="#">
+<div class="w-12 h-12 mb-6 bg-mist text-primary flex items-center justify-center rounded">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"></path></svg>
+</div>
+<h3 class="font-bold text-primary mb-2">Medical History</h3>
+<p class="text-xs text-on-surface-variant mb-4">Symptoms and medications</p>
+<span class="text-teal-soft font-bold text-xs uppercase">Download PDF</span>
+</a>
+<a class="p-8 border border-border-line rounded hover:border-teal-soft transition-colors flex flex-col items-center text-center shadow-[4px_4px_0px_0px_rgba(12,53,69,0.05)]" href="#">
+<div class="w-12 h-12 mb-6 bg-mist text-primary flex items-center justify-center rounded">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"></path></svg>
+</div>
+<h3 class="font-bold text-primary mb-2">Privacy Policy</h3>
+<p class="text-xs text-on-surface-variant mb-4">HIPAA and data protection</p>
+<span class="text-teal-soft font-bold text-xs uppercase">Download PDF</span>
+</a>
+</div>
+</div>
+</section>
+<!-- Appointment Form -->
+<section class="py-24 bg-surface-container-low" id="appointment">
+<div class="container max-w-4xl">
+<div class="bg-white p-12 rounded-lg border border-border-line shadow-[8px_8px_0px_0px_rgba(12,53,69,0.1)]">
+<div class="text-center mb-12">
+<span class="panel-label mx-auto">Schedule Visit</span>
+<h2 class="text-3xl font-headline text-primary mb-4">Request an appointment</h2>
+<p class="text-on-surface-variant">Complete the form below and our staff will contact you to confirm.</p>
+</div>
+<form class="grid md:grid-cols-2 gap-6">
+<div class="col-span-2 md:col-span-1">
+<label class="block text-xs font-bold text-primary uppercase mb-2">Full Name</label>
+<input class="w-full border-border-line rounded focus:ring-teal-soft focus:border-teal-soft" placeholder="Jane Doe" type="text"/>
+</div>
+<div class="col-span-2 md:col-span-1">
+<label class="block text-xs font-bold text-primary uppercase mb-2">Phone Number</label>
+<input class="w-full border-border-line rounded focus:ring-teal-soft focus:border-teal-soft" placeholder="(516) 000-0000" type="tel"/>
+</div>
+<div class="col-span-2">
+<label class="block text-xs font-bold text-primary uppercase mb-2">Reason for visit</label>
+<select class="w-full border-border-line rounded focus:ring-teal-soft focus:border-teal-soft">
+<option>Select a specialty...</option>
+<option>Spine Consultation</option>
+<option>Orthopedic Evaluation</option>
+<option>Second Opinion</option>
+<option>Follow-up Care</option>
+</select>
+</div>
+<div class="col-span-2 pt-4">
+<button class="w-full bg-primary text-white font-bold py-4 rounded hover:bg-on-primary-fixed-variant transition-colors" type="submit">Request Callback</button>
+<p class="text-center text-[10px] text-on-surface-variant mt-4 opacity-60 italic">For medical emergencies, please call 911 immediately.</p>
+</div>
+</form>
+</div>
+</div>
+</section>
+</main>
+<footer class="bg-[#0c3545] text-white py-20">
+<div class="container">
+<div class="grid md:grid-cols-4 gap-12">
+<div class="md:col-span-2">
+<a class="flex items-center gap-3 mb-8" href="#top">
+<div class="w-10 h-10 bg-white text-primary flex items-center justify-center font-headline text-xl rounded">S</div>
+<div class="leading-tight">
+<span class="block text-[10px] uppercase tracking-widest font-bold text-teal-soft">Long Island</span>
+<strong class="font-headline text-lg text-white">Spine and Orthopedics</strong>
+</div>
+</a>
+<p class="opacity-60 text-sm max-w-sm leading-relaxed mb-8">Patient-focused spine and orthopedic care in Hicksville, New York. Committed to clinical excellence and compassionate recovery.</p>
+<p class="text-xs font-bold text-teal-soft uppercase tracking-widest">© 2024 Long Island Spine and Orthopedics</p>
+</div>
+<div>
+<h4 class="font-bold text-sm uppercase tracking-widest mb-6 text-teal-soft">Practice</h4>
+<ul class="space-y-4 text-sm opacity-80">
+<li><a class="hover:text-white transition-colors" href="#care">Care and Services</a></li>
+<li><a class="hover:text-white transition-colors" href="#doctor">Meet Dr. Rafiy</a></li>
+<li><a class="hover:text-white transition-colors" href="#resources">Patient Resources</a></li>
+<li><a class="hover:text-white transition-colors" href="#visit">Visit Hicksville</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-sm uppercase tracking-widest mb-6 text-teal-soft">Contact</h4>
+<ul class="space-y-4 text-sm opacity-80">
+<li>87 W Old Country Rd<br/>Hicksville, NY 11801</li>
+<li class="font-bold text-white">(516) 433-1100</li>
+<li>Office Hours: M-F 9am–5pm</li>
+</ul>
+</div>
+</div>
+</div>
+</footer>
+</body></html>
