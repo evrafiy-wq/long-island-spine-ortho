@@ -11,6 +11,11 @@ const eslintConfig = [
   {
     ignores: [
       '.next/**',
+      // Scratch output from `NEXT_DIST_DIR=.next-verify npm run build` — the
+      // verification build CLAUDE.md prescribes so a build does not replace
+      // .next/ underneath a running dev server. Generated JS; linting it
+      // reports thousands of problems in code nobody wrote.
+      '.next-verify/**',
       'node_modules/**',
       'next-env.d.ts',
       // Standalone Node scripts, not Next app code — they run under `node`, not
