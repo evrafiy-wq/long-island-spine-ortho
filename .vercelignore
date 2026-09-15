@@ -1,0 +1,45 @@
+# What NOT to upload when deploying from the Vercel CLI.
+#
+# The CLI does NOT read .gitignore — it needs this file — and without it
+# `vercel --prod` tries to upload the entire working directory. That fails, and
+# the error names a size limit rather than a filename:
+#
+#   Error: File size limit exceeded (100 MB)
+#
+# The offender is node_modules/@next/swc-darwin-arm64/next-swc.darwin-arm64.node,
+# Next's platform-native compiler, which is over the 100 MB per-file cap on its
+# own. The two build caches add several hundred MB more.
+#
+# None of it is wanted on the server anyway: Vercel runs `npm install` from
+# package-lock.json (so it fetches the LINUX swc binary, not the macOS one) and
+# `next build` fresh. Uploading a local build would at best be ignored and at
+# worst be wrong for the target platform.
+#
+# Note that deployments triggered by a git push skip this path entirely —
+# Vercel clones from GitHub and nothing is uploaded from here. This file only
+# matters for CLI deploys.
+
+# Dependencies — Vercel installs these itself
+node_modules
+
+# Build output and caches — Vercel builds fresh. Covers .next, .next-verify
+# and .next-qa-dev.
+.next
+.next-*
+
+# Version control — Vercel does not need the history to build
+.git
+
+# Test artefacts
+coverage
+test-results
+playwright-report
+blob-report
+.playwright
+
+# Local tooling and editor state
+.vscode
+.claude
+.DS_Store
+*.log
+*.tsbuildinfo

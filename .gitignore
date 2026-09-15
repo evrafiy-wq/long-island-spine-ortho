@@ -65,3 +65,11 @@ coverage/
 # `.next-qa-dev/` from a QA run was already sitting untracked and would have
 # been committed by the first `git add -A`.
 /.next-*/
+
+# Appended by `vercel link`, then narrowed. Bare `.env*` also matches
+# .env.example, which is tracked ON PURPOSE — it is the documentation of every
+# variable the app reads. Git does not untrack a file already in the index, so
+# nothing broke, but a fresh clone plus `git add -A` would have silently
+# dropped it.
+.env*
+!.env.example
