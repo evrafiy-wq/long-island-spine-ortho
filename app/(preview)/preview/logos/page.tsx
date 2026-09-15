@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { ChromeInSitu } from '@/components/preview/logos/ChromeInSitu'
 import { Lockup, widthAt } from '@/components/preview/logos/Lockup'
 import {
@@ -60,6 +61,17 @@ export default function LogoPreviewPage() {
           All four set the name in full —{' '}
           <strong className="text-ink">Long Island Spine and Orthopedics</strong> — as you
           confirmed. None of them uses an abbreviation anywhere, in any lockup.
+        </p>
+
+        <p className="max-w-reading pt-6 text-body text-ink">
+          <Link
+            href="/preview/logos/marks"
+            className="font-semibold underline decoration-accent underline-offset-4 hover:text-accent"
+          >
+            LISP lettermarks for Direction 3 &rarr;
+          </Link>{' '}
+          — six display serifs, four arrangements, with a favicon test and a look at what those four
+          letters spell.
         </p>
 
         <div className="grid gap-x-10 gap-y-6 pt-10 md:grid-cols-2">

@@ -81,6 +81,30 @@ on anything narrower than a wide desktop, despite the nav being present from
 and ~1350: a smaller wordmark, the stacked lockup, or a shorter nav. Directions
 2 and 3 have no such gap. This is measured off the live header, not estimated.
 
+## Lettermarks for Direction 3
+
+`/preview/logos/marks` — "LISP" in six display serifs (Newsreader, Cinzel,
+Cormorant Garamond, Bodoni Moda, Playfair Display, Marcellus), four
+arrangements each, all SIL OFL 1.1. Files under `public/logos/marks/`, brand
+and reversed only; the monochrome-black print variant gets generated for
+whichever mark is chosen. Every one is under 1.9 KB.
+
+Three things the build turned up:
+
+- **"Lisp" is an English word for a speech impediment.** On a medical practice
+  that association is immediate. The alternates section shows the identical
+  treatment set as LISO, LIS and LI so the comparison is direct.
+- **Bodoni Moda fails small.** It is the most obviously "fancy" of the six and
+  its didone hairlines come apart at 32px, let alone 16px. Cinzel and Marcellus
+  — Roman inscriptional capitals, far more even in stroke weight — hold up best.
+- **Sizing a mark by height is the wrong favicon test**, and it gives the
+  opposite answer. A two-line stack set to 16px _tall_ halves every letter, so
+  the single row looks better. Letterboxed into a 16px _square_, which is what
+  a favicon actually does, the row is four letters sharing sixteen pixels of
+  width and the stack clearly wins. At 16px no four-letter mark is comfortable
+  in any of the six faces, which is an argument for a two-letter favicon beside
+  a four-letter lettermark used larger.
+
 ## Files
 
 `public/logos/{d1..d4}-{horizontal,stacked,mark}[-black|-reversed].svg` — 36
