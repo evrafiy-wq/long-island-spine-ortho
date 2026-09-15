@@ -112,6 +112,14 @@ NEXT_DIST_DIR=.next-verify npm run build
 `distDir` in `next.config.ts` reads that variable and defaults to `.next`, so a
 verification build can leave a running dev server alone.
 
+Use `.next-verify` specifically, and not some other scratch name. On every
+build Next checks that `<distDir>/types/**/*.ts` is listed in `tsconfig.json`'s
+`include` and, if it is missing, rewrites the file — adding the entry and
+reformatting the whole thing in its own JSON style, which then fails
+`format:check`. `.next-verify/types/**/*.ts` is committed to `include` to
+pre-empt that, so a verification build leaves the tree clean. Next matches the
+literal string, so a glob like `.next-*/types/**/*.ts` will not satisfy it.
+
 **There is no `index.html`.** This site only exists when the dev server is
 running; there is no file you can open in a browser to see it. The
 pre-migration static site that used to sit at the repo root — `index.html`,
