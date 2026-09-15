@@ -3,6 +3,7 @@ import './globals.css'
 import { Analytics } from '@/components/site/Analytics'
 import { practice } from '@/content/practice'
 import { fontVariables } from '@/lib/fonts'
+import { portfolioRobots } from '@/lib/siteMode'
 import { siteUrl } from '@/lib/siteUrl'
 
 /**
@@ -56,6 +57,13 @@ export const metadata: Metadata = {
     title: practice.name,
     description,
   },
+  /**
+   * The homepage's `noindex` in portfolio mode. Inner pages get theirs from
+   * `pageMetadata()`; this layout is the only place the homepage's metadata is
+   * declared, so it has to be restated here. Empty object in production.
+   * See lib/siteMode.ts.
+   */
+  ...portfolioRobots,
 }
 
 /**

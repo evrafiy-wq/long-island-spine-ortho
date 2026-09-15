@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { practice } from '@/content/practice'
+import { isPortfolio } from '@/lib/siteMode'
 
 interface PageMetadataInput {
   title: string
@@ -81,6 +82,13 @@ export function pageMetadata({
       description,
       images: [OG_IMAGE],
     },
-    ...(noindex ? { robots: { index: false, follow: false } } : {}),
+    /**
+     * `noindex` is per-page (the admin segment, the legal drafts).
+     * `isPortfolio` is per-deployment and covers everything — see
+     * lib/siteMode.ts. Either one is enough to suppress the page, so they
+     * are OR'd rather than layered, and production with no per-page flag
+     * emits no `robots` key at all.
+     */
+    ...(noindex || isPortfolio ? { robots: { index: false, follow: false } } : {}),
   }
 }

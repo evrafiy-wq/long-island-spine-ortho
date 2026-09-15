@@ -1,5 +1,6 @@
 import { ActionBar } from '@/components/site/ActionBar'
 import { Glyph } from '@/components/site/Glyph'
+import { PortfolioNotice } from '@/components/site/PortfolioNotice'
 import { SiteFooter } from '@/components/site/SiteFooter'
 import { SiteHeader } from '@/components/site/SiteHeader'
 import { UI } from '@/components/site/icons'
@@ -30,6 +31,11 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
       >
         Skip to main content
       </a>
+
+      {/* Off unless NEXT_PUBLIC_PORTFOLIO_NOTICE=1 — see lib/siteMode.ts.
+          Above the ActionBar and not sticky, so it scrolls away while the
+          phone number does not. */}
+      <PortfolioNotice />
 
       <ActionBar />
       <SiteHeader />

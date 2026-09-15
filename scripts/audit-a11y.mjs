@@ -13,11 +13,10 @@
  * Both matter. The token audit catches a bad colour before it renders; this
  * catches the pair nobody thought to declare.
  *
- * INTERACTIVE STATES ARE THE POINT. A scan of eight pages at rest is close to
- * worthless on this site: the mobile menu, the FAQ disclosures and the
- * condition tabs are all closed on load, so a resting scan never sees the
- * markup most likely to be wrong. Each entry below can open what it needs
- * first, and the same page is scanned once per state.
+ * INTERACTIVE STATES ARE THE POINT. A scan of every page at rest misses the
+ * markup most likely to be wrong: the mobile menu and the FAQ disclosures are
+ * both closed on load. Each route entry below can open what it needs first,
+ * and the same page is scanned once per state.
  *
  * Console and page errors are collected on the same pass, because loading
  * every route in a real browser is most of the cost and checking the console
@@ -42,8 +41,12 @@ const BASE = (process.env.A11Y_BASE_URL ?? 'http://localhost:3000').replace(/\/+
  * The WCAG level the site claims. `best-practice` is included deliberately —
  * it is where landmark and heading-order rules live, and those are exactly the
  * regressions Phase 2 fixed and nobody wants back.
+ *
+ * `wcag22aa` matters more than it looks: `target-size` is a 2.2 rule, and the
+ * 24px minimum target is one of the accessibility gates CLAUDE.md claims. Omit
+ * the tag and axe never checks the thing the site promises.
  */
-const TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'best-practice']
+const TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22a', 'wcag22aa', 'best-practice']
 
 /**
  * Every public route, plus the states worth opening.
@@ -62,8 +65,13 @@ const ROUTES = [
     states: [
       {
         label: 'all FAQ answers expanded',
+        /**
+         * Matched by id prefix, not by `button[aria-expanded]` — that also
+         * catches the mobile nav toggle, which is display:none at desktop
+         * width and hangs the click forever.
+         */
         open: async (page) => {
-          const triggers = page.locator('button[aria-expanded]')
+          const triggers = page.locator('button[id^="faq-trigger-"]')
           const n = await triggers.count()
           if (n === 0) throw new Error('no FAQ disclosure buttons found')
           for (let i = 0; i < n; i++) await triggers.nth(i).click()
@@ -78,18 +86,12 @@ const ROUTES = [
   { path: '/nonexistent-page-for-404-scan', name: '404' },
 ]
 
-/** The condition tabs live on two pages; scan each panel, not just the first. */
-const TAB_STATE = {
-  label: 'each condition tab selected',
-  open: async (page) => {
-    const tabs = page.locator('[role="tab"]')
-    const n = await tabs.count()
-    if (n === 0) throw new Error('no condition tabs found')
-    for (let i = 0; i < n; i++) await tabs.nth(i).click()
-  },
-}
-ROUTES[0].states = [TAB_STATE]
-ROUTES[2].states = [TAB_STATE]
+/**
+ * The condition guide has NO interactive state to open. It used to be a
+ * tablist and is now plain `<section>`s — ConditionGuide.tsx explains why —
+ * so every condition is in the DOM on load and the resting scan already
+ * covers it. Nothing to add for / and /services.
+ */
 
 /** Viewports. The mobile pass also opens the nav, which only exists there. */
 const VIEWPORTS = [
@@ -118,6 +120,8 @@ const IGNORED_CONSOLE = [
   /\[Fast Refresh\]/i,
   /challenges\.cloudflare\.com/i,
   /Turnstile/i,
+  /** The 404 route is REQUESTED as a 404. Chrome logs the status; not a bug. */
+  /Failed to load resource: the server responded with a status of 404/i,
 ]
 
 const violations = []
@@ -154,7 +158,15 @@ for (const vp of VIEWPORTS) {
       recordConsole(page, where)
 
       try {
-        await page.goto(`${BASE}${route.path}`, { waitUntil: 'networkidle' })
+        /**
+         * `load`, not `networkidle`. The Google Maps embed on /visit and the
+         * analytics beacon hold connections open long enough that networkidle
+         * never settles, and the whole audit times out on pages that are
+         * perfectly fine. `load` plus the explicit wait for <main> below is
+         * both faster and a truer picture of what a visitor sees.
+         */
+        await page.goto(`${BASE}${route.path}`, { waitUntil: 'load' })
+        await page.locator('main').first().waitFor({ state: 'attached' })
         if (openNav) await openNav(page)
         if (state.open) await state.open(page)
 

@@ -60,5 +60,8 @@ coverage/
 /blob-report/
 /.playwright/
 
-# Scratch build output — see `distDir` in next.config.ts
-/.next-verify/
+# Scratch build output — see `distDir` in next.config.ts.
+# Globbed rather than listed: NEXT_DIST_DIR takes an arbitrary name, and
+# `.next-qa-dev/` from a QA run was already sitting untracked and would have
+# been committed by the first `git add -A`.
+/.next-*/

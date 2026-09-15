@@ -13,12 +13,24 @@ import { practice } from '@/content/practice'
  *
  * Below 480px the practice name gives way to the city, which is the shorter
  * and more useful orienting fact for someone who just arrived from a search.
+ *
+ * It is a LABELLED `<section>`, not a `<div>`, and that is load-bearing. As a
+ * bare div its contents belonged to no landmark, so a screen-reader user
+ * moving through the page by landmarks — the normal way to navigate one —
+ * skipped the bar entirely and never reached the phone number. The site's
+ * accessibility claim is that the number is one tap away at every width; that
+ * has to hold for landmark navigation too, not just for sighted users. Caught
+ * by `scripts/audit-a11y.mjs` (axe `region`).
+ *
+ * `<section>` + an accessible name is what maps to a `region` landmark. It
+ * cannot be a second `<header>`: SiteHeader already supplies the page's one
+ * banner, and a duplicate is its own violation.
  */
 export function ActionBar() {
   const { phone, address } = practice.contact
 
   return (
-    <div className="sticky top-0 z-40 bg-dark text-ink-inv">
+    <section aria-label="Office contact" className="sticky top-0 z-40 bg-dark text-ink-inv">
       <div className="measure flex h-14 items-center justify-between gap-4">
         <p className="text-label text-ink-inv-muted uppercase">
           <span className="hidden sm:inline">{practice.name}</span>
@@ -34,6 +46,6 @@ export function ActionBar() {
           {phone.display}
         </a>
       </div>
-    </div>
+    </section>
   )
 }

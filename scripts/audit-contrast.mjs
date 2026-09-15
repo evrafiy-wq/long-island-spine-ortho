@@ -87,6 +87,21 @@ const PAIRS = [
   { fg: 'ink-inv', bg: 'dark', use: 'body copy on inverted band', level: 'AAA' },
   { fg: 'ink-inv-muted', bg: 'dark', use: 'secondary text on inverted band', level: 'AA' },
   { fg: 'accent-inv', bg: 'dark', use: 'links on inverted band', level: 'AA' },
+
+  /* components/site/PortfolioNotice.tsx — the band that tells a visitor this
+     deployment is not the practice's live site. Listed separately from the
+     two rows above even though the token pairs repeat, because the manifest
+     is a list of USAGES: the rows above cover a link and incidental secondary
+     text, and neither carries this one's burden.
+
+     The prose is held to AAA rather than the AA its token pair normally gets.
+     It is the sentence a reader has to actually read to learn the site is a
+     demonstration and that the appointment form may not reach anyone — a
+     disclosure nobody can read is the same as no disclosure. It clears 7:1
+     already, so the stricter level costs nothing and stops a future palette
+     change from quietly dimming it. */
+  { fg: 'accent-inv', bg: 'dark', use: 'portfolio notice label', level: 'AA' },
+  { fg: 'ink-inv-muted', bg: 'dark', use: 'portfolio notice prose', level: 'AAA' },
   { fg: 'border-strong', bg: 'canvas', use: 'field + control boundaries', level: 'UI' },
   { fg: 'border-strong', bg: 'surface', use: 'field boundaries on panel', level: 'UI' },
 ]

@@ -30,13 +30,6 @@
 @import './styles/tokens.css';
 @import './styles/reset.css';
 
-/* The two surviving exploration directions from the Phase 2 comparison, kept
- * for reference at /preview/a and /preview/b. Each overrides the token VALUES
- * inside `[data-direction='a'|'b']` and is inert everywhere else. Safe to
- * delete along with app/(preview) and components/preview. */
-@import './styles/preview-a.css';
-@import './styles/preview-b.css';
-
 /* ----------------------------------------------------------------------------
  * Narrow what Tailwind scans for class names.
  *
