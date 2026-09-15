@@ -1,16 +1,27 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { practice } from '@/content/practice'
 
 export function SiteFooter() {
   const { phone, address } = practice.contact
+  const { wordmarkStacked } = practice.brand
 
   return (
     <>
       <footer className="border-t border-hairline bg-surface">
         <div className="measure grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr]">
           <div>
-            <p className="font-display text-subtitle tracking-tight text-ink">{practice.name}</p>
-            <p className="max-w-[40ch] pt-3 text-meta text-ink-muted">
+            {/* Unlike the header's copy this one is not inside a link, so it
+                supplies its own accessible name rather than the empty default. */}
+            <Image
+              src={wordmarkStacked.src}
+              alt={practice.name}
+              width={wordmarkStacked.width}
+              height={wordmarkStacked.height}
+              unoptimized
+              className="h-16 w-auto max-w-none"
+            />
+            <p className="max-w-[40ch] pt-5 text-meta text-ink-muted">
               {practice.shortDescription}
             </p>
           </div>
@@ -40,7 +51,11 @@ export function SiteFooter() {
             </address>
             <a
               href={phone.href}
-              className="inline-block pt-3 font-display text-subtitle font-semibold tracking-tight text-accent transition-state hover:text-accent-hover"
+              // whitespace-nowrap because without it this breaks after the
+              // dash — "(516) 433-" over "1100" — in the 310px footer column at
+              // 1440. A phone number split across two lines is a transcription
+              // error waiting to happen, and this one is the practice's.
+              className="inline-block pt-3 font-display text-subtitle font-semibold tracking-tight whitespace-nowrap text-accent transition-state hover:text-accent-hover"
             >
               {phone.display}
             </a>

@@ -102,15 +102,43 @@ export const practice = {
   shortDescription:
     'Patient-focused spine and orthopedic care in Hicksville, New York. Committed to clinical excellence and compassionate recovery.',
 
-  /** The header/footer lockup renders the name on two lines. */
+  /**
+   * The Phase 3 identity: a typographic wordmark, not a symbol.
+   *
+   * Every lockup is outlined paths — no font file is needed to render one, and
+   * they are pixel-identical wherever they land. Dimensions are the files' own
+   * viewBoxes; no two share an aspect ratio, so anything rendering these must
+   * pass both and let one axis stay `auto`.
+   *
+   * `alt` is empty for the wordmark on purpose. It is always inside a link to
+   * the homepage whose accessible name already says the practice name, and a
+   * second copy would make a screen reader announce it twice. The monogram
+   * carries a real alt because it appears without that context.
+   *
+   * `prefix`/`emphasis` survive only for the two archived Phase 2 previews,
+   * which set the name as text in their own typefaces. Nothing on the real
+   * site uses them now — the wordmark contains the name.
+   */
   brand: {
     prefix: 'Long Island',
     emphasis: 'Spine and Orthopedics',
-    logo: {
-      src: '/logo.svg',
-      width: 96,
-      height: 96,
-      alt: 'Long Island Spine and Orthopedics logo',
+    wordmark: {
+      src: '/brand/wordmark.svg',
+      width: 929.4,
+      height: 139.2,
+      alt: '',
+    },
+    wordmarkStacked: {
+      src: '/brand/wordmark-stacked.svg',
+      width: 501.8,
+      height: 267.7,
+      alt: '',
+    },
+    monogram: {
+      src: '/brand/monogram.svg',
+      width: 165.9,
+      height: 165.9,
+      alt: 'Long Island Spine and Orthopedics',
     },
   },
 

@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-labelledby="title desc">
-  <title id="title">Long Island Spine and Orthopedics logo</title>
-  <desc id="desc">An abstract spine and upward path healthcare symbol.</desc>
-  <path fill="#003b67" d="M48 5C24.3 5 5 24.3 5 48s19.3 43 43 43 43-19.3 43-43S71.7 5 48 5Z"/>
-  <path fill="#008d87" d="M31.2 67.8c-4.5-4.3-7.3-10.3-7.3-17 0-13.1 10.6-23.7 23.7-23.7 6.9 0 13.1 2.9 17.4 7.6l-6.8 5.8a14.4 14.4 0 0 0-10.5-4.5c-8 0-14.5 6.5-14.5 14.5 0 4.1 1.7 7.8 4.5 10.5Z"/>
-  <path fill="#fff" d="M47.8 20.5c2.8 0 5 2.2 5 5v8.2h7.8c2.8 0 5 2.2 5 5s-2.2 5-5 5h-7.8v7.8c0 2.8-2.2 5-5 5s-5-2.2-5-5v-7.8H35c-2.8 0-5-2.2-5-5s2.2-5 5-5h7.8v-8.2c0-2.8 2.2-5 5-5Z"/>
-  <path fill="#006db5" d="M58.6 50.3c0 3.3-2.5 5.8-5.7 5.8s-5.7-2.5-5.7-5.8 2.5-5.8 5.7-5.8 5.7 2.5 5.7 5.8Zm-1.7 13.5c0 3.3-2.5 5.8-5.7 5.8s-5.7-2.5-5.7-5.8S48 58 51.2 58s5.7 2.5 5.7 5.8Z"/>
-  <path fill="#f8c947" d="M65.4 58.1 76 68.7l-4.7 4.7-10.6-10.6V67h-4.2v-8.9Z"/>
-</svg>

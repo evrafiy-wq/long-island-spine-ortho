@@ -1,7 +1,48 @@
 # Phase 3 — logo and wordmark
 
-Four candidate wordmarks, rendered side by side at **`/preview/logos`**.
-Nothing has been adopted: the site still ships the old `public/logo.svg` badge.
+**Adopted: Direction 3, "Letterhead."** LONG ISLAND in small letterspaced sans
+caps (IBM Plex Sans 600) above the specialty in a display serif (Newsreader,
+opsz 26). It is in the header and footer, the favicon set and the OpenGraph
+image are generated from it, and the old `public/logo.svg` badge is deleted.
+
+The four candidates remain at **`/preview/logos`** for reference.
+
+## Where the files are
+
+| Path                                  | What                                       |
+| ------------------------------------- | ------------------------------------------ |
+| `public/brand/wordmark*.svg`          | Horizontal lockup — brand, black, reversed |
+| `public/brand/wordmark-stacked*.svg`  | Stacked lockup — brand, black, reversed    |
+| `public/brand/monogram*.svg`          | LI monogram — brand, black, reversed       |
+| `public/brand/opengraph*.svg`         | 1200×630 master, outlined                  |
+| `app/favicon.ico`                     | 16 + 32 + 48, multi-resolution             |
+| `app/icon.png` · `app/apple-icon.png` | 32 · 180                                   |
+| `public/icons/icon-{192,512}.png`     | Referenced by `app/manifest.ts`            |
+| `public/icons/icon-maskable-512.png`  | Android maskable, artwork inset to 46%     |
+| `app/opengraph-image.png`             | Rasterised from the master                 |
+
+Regenerate every raster from the SVG masters — no font files needed, they are
+outlined:
+
+```bash
+node scripts/build-brand-assets.mjs
+```
+
+Two decisions worth knowing. **Every icon is the monogram reversed out of the
+site's dark ground**, not ink on transparent: a transparent favicon carrying
+`#0e1114` letterforms is invisible against a dark browser tab strip, and iOS
+composites a transparent apple-touch-icon onto black. And **the header steps
+the wordmark at `xl`, not `lg`** — the desktop nav is 726px wide and appears at
+`lg`, leaving 194px at 1024px and 418px at 1280px; 28px of lockup is 187px and
+clears the first, 36px is 240px and only clears the second.
+
+## Still open
+
+`metadataBase` is a `[PLACEHOLDER: production domain]`. The practice's real
+domain is not recorded anywhere in this repo, and a wrong canonical URL on a
+medical site points crawlers and share cards at someone else's address. Set
+`NEXT_PUBLIC_SITE_URL` at build time; until then it falls back to localhost, so
+share previews fail visibly in development rather than silently in production.
 
 ## The name
 

@@ -57,7 +57,16 @@ export default function LogoPreviewPage() {
       <div className="measure pt-12">
         <p className="text-label text-ink-muted uppercase">Build brief · Phase 3</p>
         <h1 className="pt-4 font-display text-display text-ink">Four wordmark directions</h1>
-        <p className="max-w-lede pt-6 text-lede text-ink-muted">
+        <div className="mt-8 border-l-4 border-accent bg-surface px-6 py-5">
+          <h2 className="text-subtitle text-ink">Direction 3 was chosen and is live</h2>
+          <p className="max-w-reading pt-3 text-body text-ink">
+            The Letterhead wordmark is in the header and footer, the favicon set and the
+            1200&times;630 OpenGraph image are generated from it, and the old badge is deleted. This
+            page is kept for reference; the other three directions are no longer candidates.
+          </p>
+        </div>
+
+        <p className="max-w-lede pt-8 text-lede text-ink-muted">
           All four set the name in full —{' '}
           <strong className="text-ink">Long Island Spine and Orthopedics</strong> — as you
           confirmed. None of them uses an abbreviation anywhere, in any lockup.
@@ -80,9 +89,9 @@ export default function LogoPreviewPage() {
               What this replaces
             </h2>
             <p className="max-w-reading pt-3 text-body text-ink-muted">
-              The current <code className="text-meta">logo.svg</code> is a circular badge carrying a
+              The old <code className="text-meta">logo.svg</code> was a circular badge carrying a
               medical cross, a teal arc, four blue dots and a yellow wrench across five colours. It
-              is still in place on every page; nothing here has been swapped in yet.
+              has been deleted; Direction 3 is in its place everywhere.
             </p>
           </section>
           <section aria-labelledby="licensing">
@@ -390,17 +399,17 @@ export default function LogoPreviewPage() {
       {/* ------------------------------------------------------------------ */}
       <section aria-labelledby="after" className="measure pt-[var(--spacing-block)]">
         <h2 id="after" className="font-display text-title text-ink">
-          Once you pick one
+          What adoption included
         </h2>
         <p className="max-w-reading pt-4 text-body text-ink-muted">
-          Nothing below has been done yet — the site still ships the old badge.
+          All of this is done, from Direction 3.
         </p>
         <ul className="pt-6">
           {[
-            'favicon.ico plus 32, 180, 192 and 512px PNGs, apple-touch-icon and site.webmanifest, generated from the chosen monogram.',
-            'An OpenGraph image at 1200×630, and the OpenGraph and Twitter metadata to point at it — app/layout.tsx currently declares neither.',
-            'practice.brand.logo repointed, and the header lockup rebuilt: the wordmark already contains the name, so the icon-plus-two-lines arrangement in SiteHeader becomes redundant.',
-            'The unchosen candidates deleted from public/logos, along with this route and components/preview/logos.',
+            'favicon.ico at 16/32/48, a 32px icon, a 180px apple-touch-icon, 192/512 PWA icons and a 512 maskable variant — all the monogram reversed out of the site\u2019s dark ground, because a transparent favicon in #0e1114 is invisible on a dark browser tab strip.',
+            'An OpenGraph image at 1200\u00d7630, plus the openGraph and twitter metadata. Regenerate every raster from the SVG masters with `node scripts/build-brand-assets.mjs`.',
+            'practice.brand rebuilt around the three lockups; SiteHeader and SiteFooter now render the wordmark, and the old icon-plus-two-lines arrangement is gone.',
+            'public/logo.svg deleted, along with its use in the two archived Phase 2 preview headers.',
           ].map((item) => (
             <li
               key={item}

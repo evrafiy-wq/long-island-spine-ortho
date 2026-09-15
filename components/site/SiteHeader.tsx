@@ -17,7 +17,7 @@ const NAV_BREAKPOINT = 1024
  */
 export function SiteHeader() {
   const [isOpen, setIsOpen] = useState(false)
-  const { logo, prefix, emphasis } = practice.brand
+  const { wordmark } = practice.brand
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -37,14 +37,28 @@ export function SiteHeader() {
   return (
     <header className="relative border-b border-hairline">
       <div className="measure flex items-center justify-between gap-6 py-4">
-        <Link href="/" className="flex items-center gap-3">
-          <Image src={logo.src} alt={logo.alt} width={34} height={34} unoptimized />
-          <span className="text-meta leading-tight">
-            <span className="block text-ink-muted">{prefix}</span>
-            <strong className="block font-display font-semibold tracking-tight text-ink">
-              {emphasis}
-            </strong>
-          </span>
+        {/* The wordmark carries the name, so the icon-plus-two-lines lockup this
+            replaced is gone. The image is alt="" and the link names itself:
+            otherwise a screen reader announces the practice twice.
+
+            `max-w-none` cancels `img { max-width: 100% }` from the reset. A
+            replaced element with a set height and a clamped width does not
+            re-derive its height, it distorts — and at 6.7:1 this lockup has a
+            lot of width to clamp.
+
+            The step at xl is the nav, not taste: the desktop nav is 726px wide
+            and appears at lg, which leaves 194px for the wordmark at 1024px and
+            418px at 1280. 28px of lockup is 187px and clears the first; 36px is
+            240px and only clears the second. */}
+        <Link href="/" aria-label={`${practice.name} — home`} className="flex items-center">
+          <Image
+            src={wordmark.src}
+            alt={wordmark.alt}
+            width={wordmark.width}
+            height={wordmark.height}
+            unoptimized
+            className="h-7 w-auto max-w-none xl:h-9"
+          />
         </Link>
 
         <button

@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { Glyph } from '@/components/site/Glyph'
 import { UI } from '@/components/site/icons'
@@ -19,7 +18,7 @@ const NAV_BREAKPOINT = 1024
 
 export function SiteHeaderA() {
   const [isOpen, setIsOpen] = useState(false)
-  const { logo, prefix, emphasis } = practice.brand
+  const { prefix, emphasis } = practice.brand
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -42,7 +41,6 @@ export function SiteHeaderA() {
     <header className="relative border-b border-hairline">
       <div className="measure flex items-center justify-between gap-6 py-5">
         <Link href="/preview/a" className="flex items-center gap-3">
-          <Image src={logo.src} alt={logo.alt} width={32} height={32} unoptimized />
           <span className="font-[family-name:var(--pv-font-meta)] text-meta leading-tight">
             <span className="block text-ink-muted">{prefix}</span>
             <strong className="block font-semibold text-ink">{emphasis}</strong>
