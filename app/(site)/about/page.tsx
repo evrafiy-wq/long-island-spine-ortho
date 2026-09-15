@@ -2,17 +2,19 @@ import type { Metadata } from 'next'
 import { AppointmentCta } from '@/components/site/AppointmentCta'
 import { Glyph } from '@/components/site/Glyph'
 import { PageHeader } from '@/components/site/PageHeader'
+import { pageMetadata } from '@/lib/metadata'
 import { pageTitle } from '@/lib/pageTitle'
 import { PhysicianBlock } from '@/components/site/PhysicianBlock'
 import { UI } from '@/components/site/icons'
 import { practice } from '@/content/practice'
 import Link from 'next/link'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Meet Dr. Rafiy',
   description:
     'Dr. Philip M. Rafiy, MD is a board-certified orthopedic surgeon specializing in spine surgery and adult musculoskeletal care in Hicksville, NY.',
-}
+  path: '/about',
+})
 
 export default function AboutPage() {
   const { approachSection, physicianSection } = practice.copy

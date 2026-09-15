@@ -2,7 +2,7 @@
   "name": "long-island-spine-orthopedics",
   "version": "0.1.0",
   "private": true,
-  "description": "Website for Long Island Spine & Orthopedics, PC — Hicksville, NY",
+  "description": "Website for Long Island Spine & Orthopedics, PC \u2014 Hicksville, NY",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -11,20 +11,39 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "node scripts/migrate.mjs",
+    "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
+    "@auth/drizzle-adapter": "^1.11.3",
+    "@neondatabase/serverless": "^1.1.0",
+    "@react-email/components": "^1.0.12",
+    "@upstash/ratelimit": "^2.1.0",
+    "@upstash/redis": "^1.38.4",
+    "@vercel/analytics": "^2.0.1",
+    "drizzle-orm": "^0.45.2",
     "lucide-react": "^1.46.0",
     "next": "15.5.25",
+    "next-auth": "^5.0.0-beta.32",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "resend": "^6.28.0",
+    "server-only": "^0.0.1",
+    "zod": "^4.6.5"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
+    "@playwright/test": "^1.63.0",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^24.10.1",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
+    "drizzle-kit": "^0.31.10",
     "eslint": "^9.39.1",
     "eslint-config-next": "15.5.25",
     "eslint-config-prettier": "^10.1.8",
@@ -32,6 +51,7 @@
     "prettier-plugin-tailwindcss": "^0.7.1",
     "sharp": "^0.35.4",
     "tailwindcss": "^4.3.3",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitest": "^5.0.0"
   }
 }

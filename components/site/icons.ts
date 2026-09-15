@@ -1,5 +1,6 @@
 import {
   Activity,
+  ArrowLeft,
   ArrowRight,
   Bone,
   Check,
@@ -60,6 +61,8 @@ export const ICONS = {
  */
 export const UI = {
   phone: Phone,
+  download: Download,
+  arrowLeft: ArrowLeft,
   clock: Clock,
   parking: SquareParking,
   check: Check,

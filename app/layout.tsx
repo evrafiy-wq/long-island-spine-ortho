@@ -1,20 +1,22 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import { Analytics } from '@/components/site/Analytics'
 import { practice } from '@/content/practice'
 import { fontVariables } from '@/lib/fonts'
+import { siteUrl } from '@/lib/siteUrl'
 
 /**
  * The absolute origin OpenGraph and Twitter cards need, because a crawler
- * cannot resolve a relative image URL.
+ * cannot resolve a relative image URL — now read from lib/siteUrl.ts, which is
+ * the single source the sitemap, robots.txt, the JSON-LD graph, every
+ * canonical tag and the links inside outgoing email all share. Those five have
+ * to agree, and they cannot if each reads `process.env` for itself.
  *
- * [PLACEHOLDER: production domain]. The practice's real domain is not recorded
- * anywhere in this repo and is not something to guess at — a wrong canonical
- * URL on a medical site sends crawlers and share cards to someone else's
- * address. Set NEXT_PUBLIC_SITE_URL at build time. Until it is set this falls
- * back to localhost, which makes share previews fail visibly in development
- * rather than fail silently in production.
+ * [PLACEHOLDER: production domain] is still unresolved (BUILD-BRIEF.md Part 6,
+ * Step 1). Until NEXT_PUBLIC_SITE_URL is set it falls back to localhost, which
+ * makes share previews fail visibly in development rather than fail silently
+ * in production.
  */
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
 
 const description =
   'Long Island Spine and Orthopedics provides patient-focused spine, orthopedic, and rehabilitation care with Dr. Philip M. Rafiy, MD in Hicksville, New York.'
@@ -34,6 +36,13 @@ export const metadata: Metadata = {
     template: `%s | ${practice.name}`,
   },
   description,
+  /**
+   * The homepage's canonical. Inner pages override it through
+   * `pageMetadata()` in lib/metadata.ts; a page that forgot to would inherit
+   * this one and tell Google it is a duplicate of the homepage, so every
+   * public route declares its own.
+   */
+  alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
     locale: 'en_US',
@@ -58,7 +67,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={fontVariables}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Analytics />
+      </body>
     </html>
   )
 }

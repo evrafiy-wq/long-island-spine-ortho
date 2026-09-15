@@ -77,6 +77,12 @@ export interface Credential {
   value: string
 }
 
+export interface TimeWindow {
+  /** Stored value. Stable — it ends up in the database and in CSV exports. */
+  id: string
+  label: string
+}
+
 export interface HeroHighlight {
   icon: IconName
   text: string
@@ -89,6 +95,13 @@ export interface ApproachStep {
 }
 
 const PHONE_DIGITS = '5164331100'
+
+/**
+ * Hoisted so `emergencyNotice` and `copy.forms.emergency` are the same string
+ * rather than two copies that can drift. An object literal cannot reference
+ * its own properties, hence the module-level const.
+ */
+const EMERGENCY_NOTICE = 'For medical emergencies, please call 911 immediately.'
 
 export const practice = {
   /** Name as it appears on every page of the site today. */
@@ -201,6 +214,20 @@ export const practice = {
     summary: 'Office Hours: M–F 9am–5pm',
   },
 
+  /**
+   * [PLACEHOLDER: callback window] How long a patient waits for a call back
+   * after submitting an appointment request — "within one business day", or
+   * whatever the front desk actually commits to.
+   *
+   * NULL until the practice states it. The appointment form's success panel
+   * and the patient confirmation email both branch on this: with a value they
+   * say how long; without one they fall back to the copy the site has always
+   * used ("our staff will contact you to confirm your visit"), which is true
+   * without promising a timeframe nobody has agreed to. Setting it is a
+   * one-line change here and both surfaces pick it up.
+   */
+  callbackWindow: null as string | null,
+
   officeExterior: {
     src: '/images/office-exterior.jpg',
     width: 597,
@@ -218,11 +245,27 @@ export const practice = {
 
   navCta: { label: 'Request an appointment', href: '/visit#appointment' },
 
+  /**
+   * Also the source of every inner page's `<h1>` — see lib/pageTitle.ts, which
+   * throws at build time for a route with no label here. Adding a page means
+   * adding its label to this list.
+   */
   footerLinks: [
     { label: 'Care and Services', href: '/services' },
     { label: 'Meet Dr. Rafiy', href: '/about' },
     { label: 'Patient Resources', href: '/patient-info' },
     { label: 'Visit Hicksville', href: '/visit' },
+    { label: 'Contact the Office', href: '/contact' },
+  ] satisfies readonly NavLink[],
+
+  /**
+   * Kept out of `footerLinks` so they do not become `<h1>`s or sit in the
+   * practice navigation — they render as a separate fine-print row. Their page
+   * headings come from content/legal.ts instead.
+   */
+  legalLinks: [
+    { label: 'Privacy Notice', href: '/privacy' },
+    { label: 'Terms of Use', href: '/terms' },
   ] satisfies readonly NavLink[],
 
   trustStatements: [
@@ -464,13 +507,65 @@ export const practice = {
     'Follow-up Care',
   ],
 
+  /**
+   * Preferred time windows offered on the appointment form.
+   *
+   * Derived arithmetically from the published office hours above (9:00am–5:00pm,
+   * Monday–Friday) — these are not a claim about appointment availability, and
+   * the form says so: a request is not a confirmed slot. `id` is the value that
+   * reaches the database and the CSV export, so it must stay stable even if a
+   * label is reworded.
+   */
+  appointmentTimeWindows: [
+    { id: 'morning', label: 'Morning (9:00am–12:00pm)' },
+    { id: 'midday', label: 'Midday (12:00pm–2:00pm)' },
+    { id: 'afternoon', label: 'Afternoon (2:00pm–5:00pm)' },
+    { id: 'any', label: 'No preference' },
+  ] satisfies readonly TimeWindow[],
+
+  /**
+   * Topics on the general-inquiry form. Deliberately administrative: none of
+   * them invites a clinical question, because nothing here is a clinical
+   * channel. "Something else" is the catch-all rather than a medical option.
+   */
+  contactTopics: [
+    'Appointment or scheduling',
+    'Billing or insurance',
+    'Patient forms or paperwork',
+    'Something else',
+  ],
+
+  /**
+   * Registry identifiers used by the JSON-LD in components/site/StructuredData.tsx.
+   *
+   * Both are NULL on purpose and both are launch blockers.
+   *
+   * [PLACEHOLDER: NPI] — BUILD-BRIEF.md Part 0 lists the NPI as "still needed
+   * before launch". The CMS NPPES registry is where it comes from; the number
+   * itself was never recorded in this repo. A wrong NPI in structured data
+   * attaches the practice's search presence to another clinician, so the
+   * builder OMITS the `identifier` property entirely while this is null rather
+   * than emitting a guess or an empty string.
+   *
+   * [PLACEHOLDER: geo coordinates] — same rule. Coordinates for
+   * 87 W Old Country Rd have to be read off the practice's own Google Business
+   * Profile (Part 6, Step 6) so the pin the site claims and the pin Google
+   * already shows are the same point. Until then `geo` is omitted from the
+   * markup; `address` and `hasMap` carry the location on their own and are
+   * enough for Google to geocode.
+   */
+  identifiers: {
+    npi: null as string | null,
+    geo: null as { latitude: number; longitude: number } | null,
+  },
+
   /** UNVERIFIED language claim — see `credentials` above and CLAUDE.md. */
   heroHighlights: [
     { icon: 'shield', text: 'Board Certified — ABOS Orthopedic Surgery' },
     { icon: 'globe', text: 'English, French and Spanish Spoken' },
   ] satisfies readonly HeroHighlight[],
 
-  emergencyNotice: 'For medical emergencies, please call 911 immediately.',
+  emergencyNotice: EMERGENCY_NOTICE,
 
   /**
    * Section prose reused across more than one page. Page-specific one-off
@@ -528,9 +623,71 @@ export const practice = {
       heading: 'Request an appointment',
       body: 'Complete the form and our staff will contact you to confirm your visit.',
       submitLabel: 'Request Appointment',
+      submittingLabel: 'Sending…',
       successLabel: 'Request received ✓',
       reasonPlaceholder: 'Select a reason…',
+      timeWindowPlaceholder: 'Select a time…',
       weekendMessage: 'Office is closed on weekends. Please choose a weekday.',
+      successHeading: 'Request received',
+      /**
+       * Deliberately explicit that this is not a booking. Before Phase 4 the
+       * form showed `successLabel` while transmitting nothing at all, so a
+       * patient could reasonably believe a request had been sent. It is now
+       * true — and the "not a confirmed appointment" line is what keeps it
+       * from over-promising in the other direction.
+       */
+      successNotAppointment:
+        'This is a request, not a confirmed appointment. Nothing is scheduled until our office speaks with you.',
+      successCheckEmail:
+        'A confirmation of what you sent is on its way to the email address you gave us.',
+      successUrgent: 'If your situation cannot wait, please call the office directly.',
+      errorHeading: 'Your request was not sent',
+      /** Shown when the submission fails for a reason the patient cannot fix. */
+      errorFallback:
+        'Something went wrong on our end and your request was not sent. Please call the office and we will take your request over the phone.',
+      validationSummaryHeading: 'Please check the following before sending:',
+    },
+
+    /**
+     * The general-inquiry form. Same pipeline as the appointment form, fewer
+     * fields, and the same no-medical-detail rule on its free-text box.
+     */
+    contactForm: {
+      eyebrow: 'General Enquiries',
+      heading: 'Contact the office',
+      body: 'For questions about scheduling, billing, insurance, or paperwork. Our staff will reply to the email address or phone number you provide.',
+      topicPlaceholder: 'Select a topic…',
+      submitLabel: 'Send Message',
+      submittingLabel: 'Sending…',
+      successHeading: 'Message received',
+      successBody: 'Our staff will follow up using the contact details you provided.',
+      errorHeading: 'Your message was not sent',
+    },
+
+    /**
+     * Copy shared by both forms.
+     *
+     * `noMedicalDetail` is the single most important string in this file. The
+     * free-text box is where a patient will type symptoms if nothing tells
+     * them not to, and every extra clinical detail in that box moves the
+     * practice further into territory that needs a HIPAA answer. The same
+     * sentence is repeated verbatim in the privacy notice (content/legal.ts)
+     * and in the office notification email, so all three cannot drift.
+     */
+    forms: {
+      noMedicalDetail:
+        'Please do not include detailed medical information. Our staff will collect that by phone.',
+      emergency: EMERGENCY_NOTICE,
+      optionalSuffix: '(optional)',
+      requiredLegend: 'Required unless marked optional.',
+      /**
+       * Shown when Turnstile is configured but the browser never produced a
+       * token — the JavaScript-disabled case. The patient gets a route that
+       * works rather than a dead form.
+       */
+      unverifiedFallback:
+        'We could not run the automated spam check in your browser, so this form is limited. If your request does not go through, please call the office.',
+      privacyLinkLabel: 'How we handle what you send',
     },
     resourcesSection: {
       eyebrow: 'Patient Resources',

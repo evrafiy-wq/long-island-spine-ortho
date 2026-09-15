@@ -2,14 +2,16 @@ import type { Metadata } from 'next'
 import { AppointmentCta } from '@/components/site/AppointmentCta'
 import { ConditionGuide } from '@/components/site/ConditionGuide'
 import { PageHeader } from '@/components/site/PageHeader'
+import { pageMetadata } from '@/lib/metadata'
 import { pageTitle } from '@/lib/pageTitle'
 import { ServiceList } from '@/components/site/ServiceList'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Care and Services',
   description:
     'Spine care and microsurgery, orthopedic medicine, rehabilitation planning, and second opinions from Dr. Philip M. Rafiy, MD in Hicksville, NY.',
-}
+  path: '/services',
+})
 
 export default function ServicesPage() {
   return (

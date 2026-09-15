@@ -64,9 +64,29 @@ export function SiteFooter() {
         </div>
 
         <div className="border-t border-hairline">
-          <p className="measure py-5 text-meta text-ink-muted">
-            © {new Date().getFullYear()} {practice.name}
-          </p>
+          {/* The legal links sit in the fine-print row rather than in the
+              Practice navigation above: they are not somewhere a patient is
+              being sent, they are somewhere a patient can always get to. They
+              are also kept out of practice.footerLinks because that list is
+              what lib/pageTitle.ts derives every inner page's <h1> from, and
+              these two supply their own from content/legal.ts. */}
+          <div className="measure flex flex-wrap items-center justify-between gap-x-8 gap-y-2 py-5">
+            <p className="text-meta text-ink-muted">
+              © {new Date().getFullYear()} {practice.name}
+            </p>
+            <ul className="flex flex-wrap gap-x-6">
+              {practice.legalLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="inline-block min-h-6 py-0.5 text-meta text-ink-muted transition-state hover:text-accent"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </footer>
     </>

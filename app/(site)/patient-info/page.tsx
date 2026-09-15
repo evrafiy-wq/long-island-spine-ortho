@@ -2,15 +2,17 @@ import type { Metadata } from 'next'
 import { AppointmentCta } from '@/components/site/AppointmentCta'
 import { FaqList } from '@/components/site/FaqList'
 import { PageHeader } from '@/components/site/PageHeader'
+import { pageMetadata } from '@/lib/metadata'
 import { pageTitle } from '@/lib/pageTitle'
 import { ResourceList } from '@/components/site/ResourceList'
 import { practice } from '@/content/practice'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Patient Resources & FAQ',
   description:
     'Download new patient forms and find answers to common questions about visiting Long Island Spine and Orthopedics in Hicksville, NY.',
-}
+  path: '/patient-info',
+})
 
 export default function PatientInfoPage() {
   const { resourcesSection, insuranceSection, faqSection } = practice.copy

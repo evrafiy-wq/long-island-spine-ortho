@@ -4,15 +4,17 @@ import { Glyph } from '@/components/site/Glyph'
 import { HoursParking } from '@/components/site/HoursParking'
 import { LocationPanel } from '@/components/site/LocationPanel'
 import { PageHeader } from '@/components/site/PageHeader'
+import { pageMetadata } from '@/lib/metadata'
 import { pageTitle } from '@/lib/pageTitle'
 import { UI } from '@/components/site/icons'
 import { practice } from '@/content/practice'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Visit Us & Request an Appointment',
   description:
     'Visit Long Island Spine and Orthopedics at 87 W Old Country Rd, Hicksville, NY. Get directions, office hours, and request an appointment online.',
-}
+  path: '/visit',
+})
 
 export default function VisitPage() {
   const { visitSection } = practice.copy

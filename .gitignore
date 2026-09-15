@@ -53,3 +53,12 @@ coverage/
 # Editors
 *.swp
 *.swo
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/.playwright/
+
+# Scratch build output — see `distDir` in next.config.ts
+/.next-verify/

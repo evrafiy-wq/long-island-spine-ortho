@@ -1,6 +1,16 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
+  /**
+   * Build output directory, overridable per-invocation.
+   *
+   * Defaults to `.next`, so nothing changes. It exists because `next build`
+   * replaces that directory underneath any running `npm run dev`, which then
+   * starts 500ing — the footgun CLAUDE.md warns about. With this,
+   * `NEXT_DIST_DIR=.next-verify npm run build` verifies a build without
+   * touching a dev server someone else is using.
+   */
+  distDir: process.env.NEXT_DIST_DIR ?? '.next',
   reactStrictMode: true,
   images: {
     // Serve modern formats; next/image generates the responsive variants.
