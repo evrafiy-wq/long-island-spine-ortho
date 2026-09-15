@@ -40,32 +40,32 @@
 /* ----------------------------------------------------------------------------
  * Narrow what Tailwind scans for class names.
  *
- * Tailwind v4 has no `content` config; it scans the whole project. That means
- * it was also reading the pre-migration artifacts left at the repo root —
- * and `stitch-source.html` is full of real Tailwind classes. The result was
- * 21,012 bytes / 191 dead utilities shipping on every page, including a
- * `.container` that outranked the practice's own `.container` from the later
- * `utilities` layer. That was the real cause of the `.site-container` rename;
- * the rename treated the symptom.
+ * Tailwind v4 has no `content` config; it scans the whole project. It was
+ * therefore also reading the pre-migration artifacts that used to sit at the
+ * repo root — and `stitch-source.html` was full of real Tailwind classes. The
+ * result was 21,012 bytes / 191 dead utilities shipping on every page,
+ * including a `.container` that outranked the practice's own `.container` from
+ * the later `utilities` layer. That was the real cause of the `.site-container`
+ * rename; the rename treated the symptom.
+ *
+ * Those files are gone as of Phase 3 (see the `static-site-baseline` git tag),
+ * so the excludes that named them are gone too. What remains is what still
+ * exists and still gets scanned.
  *
  * `@source not` is the only form that narrows. Adding a POSITIVE `@source`
  * does nothing here — the PostCSS plugin still injects its own match-anything
  * pattern for the project root, and yours is merely appended to it.
  * ------------------------------------------------------------------------- */
 
-@source not '../*.html';
-@source not '../styles.css';
-@source not '../styles.css.backup';
-@source not '../script.js';
+/* Prose, not templates. Every English word in a heading or a table cell is a
+ * class candidate, and these three documents are long. */
 @source not '../*.md';
-@source not '../logo.svg';
 
-/* Precautionary, and honest about it: the Phase 3 logo candidates in
- * public/logos each carry a <title>, a <desc> and long runs of path data, all
- * of which the scanner reads. Measured on this build it emits nothing —
- * 45,538 bytes of CSS either way — so this line buys no bytes today. It is
- * here because public/ is exactly where a hand-authored SVG with real text in
- * it lands next, and that is the case that bit this project before. */
+/* SVG carries text in <title>/<desc> and long letter runs inside d="...". The
+ * Phase 3 logo candidates under public/logos measure at zero impact today, so
+ * this line buys no bytes right now — it is here because public/ is exactly
+ * where the next hand-authored SVG with real text in it will land, and that is
+ * the class of file that bit this project before. */
 @source not '../public/**/*.svg';
 
 /* Stylesheets are not templates, and scanning them is actively harmful: every

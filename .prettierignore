@@ -8,9 +8,3 @@ next-env.d.ts
 # Hand-authored documents that are not ours to reformat.
 BUILD-BRIEF.md
 .vscode/
-
-# Pre-migration static site — left byte-for-byte until the cleanup list is confirmed.
-*.html
-script.js
-styles.css
-styles.css.backup

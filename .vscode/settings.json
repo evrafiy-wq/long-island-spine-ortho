@@ -1,0 +1,21 @@
+{
+  // Tailwind v4 keeps the design tokens in CSS, so IntelliSense needs to be
+  // pointed at the stylesheet that defines them rather than a config file.
+  "tailwindCSS.experimental.configFile": "app/globals.css",
+
+  // Without this, class names inside cx(...) get no completion and no hover —
+  // and cx() is how this project is required to build conditional classes.
+  // Mirrors "tailwindFunctions" in .prettierrc.json.
+  "tailwindCSS.classFunctions": ["clsx", "cn", "cva", "cx"],
+
+  // @theme, @source, @utility and @custom-variant are Tailwind v4 at-rules;
+  // the built-in CSS language service does not know them and flags each one.
+  "css.lint.unknownAtRules": "ignore",
+
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[typescriptreact]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[css]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+
+  "search.exclude": { "**/.next": true, "**/node_modules": true }
+}

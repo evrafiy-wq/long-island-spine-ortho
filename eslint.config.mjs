@@ -13,9 +13,8 @@ const eslintConfig = [
       '.next/**',
       'node_modules/**',
       'next-env.d.ts',
-      // Pre-migration static site, kept until the cleanup list is confirmed.
-      '*.html',
-      'script.js',
+      // Standalone Node scripts, not Next app code — they run under `node`, not
+      // the bundler, and next/core-web-vitals has nothing useful to say about them.
       'scripts/**',
     ],
   },

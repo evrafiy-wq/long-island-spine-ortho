@@ -85,6 +85,26 @@ npm run format       # writes; format:check for CI
 Do not run `npm run build` while `npm run dev` is running — the build replaces
 `.next/` underneath the dev server and it starts 500ing. Stop dev first.
 
+**There is no `index.html`.** This site only exists when the dev server is
+running; there is no file you can open in a browser to see it. The
+pre-migration static site that used to sit at the repo root — `index.html`,
+`styles.css`, `script.js` and the rest — was deleted in Phase 3 precisely
+because VS Code's Live Server picked it up and served the _old_ site, which
+has nothing to do with this codebase. It is preserved in full at the
+`static-site-baseline` git tag:
+
+```bash
+git show static-site-baseline:index.html   # look at one file
+git checkout static-site-baseline -- .     # restore the lot
+```
+
+From VS Code: press **F5** and pick _Next.js: dev server + browser_. The
+configs are in `.vscode/launch.json`, with build/lint/typecheck as tasks in
+`.vscode/tasks.json`.
+
+`rafiy.jpg` and `rafiy2.jpg` are still at the repo root on purpose — they are
+the source masters `scripts/optimize-images.mjs` reads.
+
 ## Layout
 
 ```
